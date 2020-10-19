@@ -12,10 +12,10 @@ declare module 'styled-components' {
         extraBold: number;
       },
       size: {
-        huge: number;
-        big: number;
-        regular: number;
-        small: number;
+        huge: string;
+        big: string;
+        regular: string;
+        small: string;
       },
     },
     border: {

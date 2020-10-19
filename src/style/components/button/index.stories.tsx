@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  Story,
   Meta,
 } from '@storybook/react/types-6-0';
 
@@ -12,10 +11,14 @@ export default {
   component: Button,
 } as Meta;
 
-const Template: Story = () => (
+export const Normal = () => (
   <Button genre="primary">
-    Hello
+    Click me
   </Button>
 );
 
-export const Primary = Template.bind({});
+export const Block = () => (
+  <Button genre="primary" block>
+    Click me
+  </Button>
+);
