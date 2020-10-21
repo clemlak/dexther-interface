@@ -18,12 +18,12 @@ const lightTheme: DefaultTheme = {
     },
   },
   border: {
-    radius: '20px',
+    radius: '10px',
     style: 'solid',
-    width: '1px',
+    width: '2px',
   },
   colors: {
-    brand: '#eb515e',
+    brand: '#FEDE48',
     primary: '#000',
     secondary: '#666666',
     inverted: '#fff',

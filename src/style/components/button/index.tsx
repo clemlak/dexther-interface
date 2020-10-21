@@ -1,4 +1,5 @@
 import styled, {
+  DefaultTheme,
   keyframes,
 } from 'styled-components';
 
@@ -13,30 +14,91 @@ const loading = () => keyframes`
 `;
 
 interface ButtonInterface {
-  size?: string;
-  genre?: string;
+  genre: string;
+  size: string;
   block?: boolean;
+  dashed?: boolean;
   isLoading?: boolean;
+}
+
+function getGenre(theme: DefaultTheme, genre: string) {
+  switch (genre) {
+    case 'primary':
+      return {
+        color: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        backgroundColor: 'transparent',
+      };
+    case 'inverted':
+      return {
+        color: theme.colors.inverted,
+        borderColor: theme.colors.primary,
+        backgroundColor: theme.colors.primary,
+      };
+    case 'brand':
+      return {
+        color: theme.colors.primary,
+        borderColor: theme.colors.brand,
+        backgroundColor: theme.colors.brand,
+      };
+    default:
+      return {
+        color: theme.colors.primary,
+        borderColor: theme.colors.primary,
+        backgroundColor: 'transparent',
+      };
+  }
+}
+
+function getSize(theme: DefaultTheme, size: string) {
+  switch (size) {
+    case 'l':
+      return {
+        fontSize: '20px',
+        padding: '20px 32px',
+      };
+    case 'm':
+      return {
+        fontSize: theme.font.size.regular,
+        padding: '12px 24px',
+      };
+    default:
+      return {
+        fontSize: theme.font.size.regular,
+        padding: '12px 24px',
+      };
+  }
 }
 
 const Button = styled.button<ButtonInterface>`
   font-family: ${(props) => props.theme.font.family}, sans-serif;
-  font-size: ${(props) => props.theme.font.size.regular};
-  font-weight: ${(props) => props.theme.font.weight.regular};
-  color: ${(props) => props.theme.colors.primary};
+  font-size: ${(props) => getSize(props.theme, props.size).fontSize};
+  font-weight: ${(props) => props.theme.font.weight.semiBold};
+  color: ${(props) => getGenre(props.theme, props.genre).color};
 
-  background: none;
+  background-color: ${(props) => getGenre(props.theme, props.genre).backgroundColor};
 
-  padding: 8px 28px;
+  padding: ${(props) => getSize(props.theme, props.size).padding};
 
   box-sizing: border-box;
 
   width: ${(props) => props.block && '100%'};
 
   border-radius: ${(props) => props.theme.border.radius};
-  border-color: ${(props) => props.theme.colors.secondary};
+  border-width: ${(props) => props.theme.border.width};
+  border-color: ${(props) => getGenre(props.theme, props.genre).borderColor};
+  border-style: ${(props) => (props.dashed ? 'dashed' : 'solid')};
 
   cursor: pointer;
+
+  animation-name: ${() => loading()};
+  animation-duration: 0.9s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  background-image: ${(props) => props.isLoading
+    && 'linear-gradient(45deg, rgba(128, 128, 128, 0.25) 25%, transparent 25%, transparent 50%, rgba(128, 128, 128, 0.25) 50%, rgba(128, 128, 128, 0.25) 75%, transparent 75%, transparent)'};
+  background-size: ${(props) => props.isLoading && '2rem 2rem'};
 
   &:focus {
     outline: none;
