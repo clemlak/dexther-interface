@@ -10,6 +10,7 @@ interface IWeb3State {
   provider: providers.JsonRpcProvider | providers.Web3Provider | undefined;
   address: string;
   chainId: string;
+  isWalletConnected: boolean;
 }
 
 export interface IWeb3Context {
@@ -21,7 +22,8 @@ const Web3Context = createContext<IWeb3Context>({
   state: {
     provider: undefined,
     address: '',
-    chainId: '0',
+    chainId: '1',
+    isWalletConnected: false,
   },
   dispatch: () => {},
 });
@@ -48,9 +50,10 @@ function web3Reducer(
 }
 
 const initialWeb3State: IWeb3State = {
-  provider: undefined,
+  provider: new providers.InfuraProvider(1, '8fc6340cde624d33874ca8603ddaa502'),
   address: '',
-  chainId: '0',
+  chainId: '1',
+  isWalletConnected: false,
 };
 
 interface IWeb3ContextProvider {

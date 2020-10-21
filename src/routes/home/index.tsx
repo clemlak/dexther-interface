@@ -1,56 +1,58 @@
 import React, {
   useContext,
+  useEffect,
 } from 'react';
 
 import {
   Web3Context,
 } from '../../store/web3ContextProvider';
 
-import {
-  Button,
-} from '../../style/components';
+import Web3Connector from '../../components/web3Connector';
 
-declare global {
-  interface Window {
-    ethereum: any,
-    web3: any,
-  }
-}
+import {
+  getAssets,
+} from '../../utils/openSea';
 
 function Home() {
   const web3Context = useContext(Web3Context);
 
   const {
     state,
-    dispatch,
   } = web3Context;
 
   const {
     address,
+    provider,
+    chainId,
+    isWalletConnected,
   } = state;
+
+  useEffect(() => {
+    async function getUserAssets() {
+      try {
+        const assets = await getAssets('rinkeby', address);
+        console.log(assets);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (address !== '') {
+      getUserAssets();
+    }
+  }, [address]);
 
   return (
     <>
-      <p>
-        {`Address: ${address}`}
-      </p>
-      <Button
-        onClick={async () => {
-          try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-            dispatch({
-              type: 'set',
-              target: 'address',
-              value: accounts[0],
-            });
-          } catch (e) {
-            console.log(e);
-          }
-        }}
-      >
-        Connect
-      </Button>
+      <ul>
+        <li>
+          {`Is Wallet Connected: ${isWalletConnected}`}
+        </li>
+        <li>
+          {`Chain ID: ${chainId}`}
+        </li>
+      </ul>
+      <Web3Connector />
     </>
   );
 }

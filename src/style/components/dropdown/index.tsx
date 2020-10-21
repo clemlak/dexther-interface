@@ -4,9 +4,7 @@ import React, {
 
 import styled from 'styled-components';
 
-import {
-  Button,
-} from '../index';
+import Button from '../button';
 
 interface DropdownInterface {
   initialLabel: string;
@@ -68,6 +66,8 @@ function Dropdown(props: DropdownInterface) {
   return (
     <DropdownWrapper>
       <Button
+        genre="primary"
+        size="m"
         onClick={() => toggle(!isOpen)}
       >
         {currentValue}
