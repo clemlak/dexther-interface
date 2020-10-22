@@ -3,7 +3,7 @@ import styled, {
 } from 'styled-components';
 
 interface TagInterface {
-  genre: string;
+  genre: 'default' | 'inverted';
   clickable?: boolean;
   bold?: boolean;
 }

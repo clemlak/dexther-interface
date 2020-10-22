@@ -54,7 +54,7 @@ function OfferCard(props: OfferCardInterface) {
   return (
     <OfferWrapper>
       {offerTokens.map((token) => (
-        <Tag>
+        <Tag genre="default">
           {token.contractName}
         </Tag>
       ))}

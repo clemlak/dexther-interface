@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import Web3Connector from '../../../components/web3Connector';
 
-import Button from '../button';
 import NavLink from '../navLink';
 
 const NavbarWrapper = styled(Flex)`
@@ -19,9 +18,7 @@ const Logo = styled.h1`
   font-family: ${(props) => props.theme.font.family};
   font-size: 32px;
   font-weight: ${(props) => props.theme.font.weight.extraBold};
-  text-decoration: underline;
-  text-decoration-style: solid;
-  text-decoration-color: ${(props) => props.theme.colors.brand};
+  border-bottom: ${(props) => `6px solid ${props.theme.colors.brand}`};
 `;
 
 function Navbar() {

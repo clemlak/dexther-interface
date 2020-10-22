@@ -7,8 +7,6 @@ import {
   Web3Context,
 } from '../../store/web3ContextProvider';
 
-import Web3Connector from '../../components/web3Connector';
-
 import {
   getAssets,
 } from '../../utils/openSea';
@@ -52,7 +50,6 @@ function Home() {
           {`Chain ID: ${chainId}`}
         </li>
       </ul>
-      <Web3Connector />
     </>
   );
 }

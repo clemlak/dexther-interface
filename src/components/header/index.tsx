@@ -1,10 +1,12 @@
 import React from 'react';
 
+import {
+  Navbar,
+} from '../../style/components';
+
 function Header() {
   return (
-    <>
-      <h1>Header</h1>
-    </>
+    <Navbar />
   );
 }
 
