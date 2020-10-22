@@ -76,19 +76,23 @@ const CarouselButton = styled.button`
   }
 `;
 
-interface CardInterface {
+interface NFTPreviewnterface {
   imageUrl: string;
   assetName: string;
   contractName: string;
   isCarousel?: boolean;
+  carouselRightCallback?: Function;
+  carouselLeftCallback?: Function;
 }
 
-function NFTPreview(props: CardInterface) {
+function NFTPreview(props: NFTPreviewnterface) {
   const {
     imageUrl,
     assetName,
     contractName,
     isCarousel = false,
+    carouselRightCallback = () => {},
+    carouselLeftCallback = () => {},
   } = props;
 
   return (
@@ -102,12 +106,12 @@ function NFTPreview(props: CardInterface) {
       {isCarousel && (
         <>
           <LeftOverlay>
-            <CarouselButton>
+            <CarouselButton onClick={() => carouselLeftCallback()}>
               <svg width="20px" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg>
             </CarouselButton>
           </LeftOverlay>
           <RightOverlay>
-            <CarouselButton>
+            <CarouselButton onClick={() => carouselRightCallback()}>
               <svg width="20px" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </CarouselButton>
           </RightOverlay>

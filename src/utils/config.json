@@ -1,0 +1,10 @@
+{
+  "contracts": {
+    "dexther": {
+    "4": "0x38C26E4F3f6AF5e8A3cDb170b0BD6cC375e8455c"
+    }
+  },
+  "tokenList": {
+    "1": "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link"
+  }
+}

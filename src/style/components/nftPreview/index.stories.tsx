@@ -7,14 +7,9 @@ import {
 
 import NFTPreview from '.';
 
-const Background = styled.div`
-  background-color: aqua;
-`;
-
 export default {
   title: 'NFTPreview',
   component: NFTPreview,
-  decorators: [(Story) => <Background><Story /></Background>],
 } as Meta;
 
 export const Standard = () => (
