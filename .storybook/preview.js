@@ -6,10 +6,16 @@ import {
 
 import lightTheme from '../src/style/lightTheme';
 
+import {
+  Web3ContextProvider,
+} from '../src/store/web3ContextProvider';
+
 export const decorators = [
   (Story) => (
     <ThemeProvider theme={lightTheme}>
-      <Story />
+      <Web3ContextProvider>
+        <Story />
+      </Web3ContextProvider>
     </ThemeProvider>
   ),
 ];

@@ -11,14 +11,20 @@ export default {
   component: Tag,
 } as Meta;
 
-export const Standard = () => (
-  <Tag>
+export const Default = () => (
+  <Tag genre="default">
+    CryptoKitties
+  </Tag>
+);
+
+export const Inverted = () => (
+  <Tag genre="inverted">
     CryptoKitties
   </Tag>
 );
 
 export const Bold = () => (
-  <Tag bold>
+  <Tag genre="default" bold>
     CryptoKitties
   </Tag>
 );

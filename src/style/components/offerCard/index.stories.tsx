@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {
+  Flex,
+  Box,
+} from 'reflexbox/styled-components';
 
 import {
   Meta,
@@ -7,14 +11,20 @@ import {
 
 import OfferCard from '.';
 
-const Background = styled.div`
-  background-color: aqua;
+const Background = styled(Flex)`
+  background-color: ${(props) => props.theme.colors.light};
 `;
 
 export default {
   title: 'OfferCard',
   component: OfferCard,
-  decorators: [(Story) => <Background><Story /></Background>],
+  decorators: [(Story) => (
+    <Background flexWrap="wrap">
+      <Box width={1 / 5} padding="20px">
+        <Story />
+      </Box>
+    </Background>
+  )],
 } as Meta;
 
 const offerTokens: Nft[] = [

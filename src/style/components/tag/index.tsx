@@ -1,17 +1,40 @@
-import styled from 'styled-components';
+import styled, {
+  DefaultTheme,
+} from 'styled-components';
 
 interface TagInterface {
+  genre: string;
   clickable?: boolean;
   bold?: boolean;
+}
+
+function getGenre(theme: DefaultTheme, genre: string) {
+  switch (genre) {
+    case 'default':
+      return {
+        color: theme.colors.inverted,
+        backgroundColor: theme.colors.primary,
+      };
+    case 'inverted':
+      return {
+        color: theme.colors.primary,
+        backgroundColor: theme.colors.background,
+      };
+    default:
+      return {
+        color: theme.colors.inverted,
+        backgroundColor: theme.colors.primary,
+      };
+  }
 }
 
 const Tag = styled.button<TagInterface>`
   font-family: ${(props) => props.theme.font.family}, sans-serif;
   font-size: ${(props) => props.theme.font.size.small};
   font-weight: ${(props) => (props.bold ? props.theme.font.weight.bold : props.theme.font.weight.medium)};
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => getGenre(props.theme, props.genre).color};
 
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => getGenre(props.theme, props.genre).backgroundColor};
 
   padding: 8px 18px;
 

@@ -7,14 +7,16 @@ import {
   Meta,
 } from '@storybook/react/types-6-0';
 
-import Navbar from '.';
+import NavLink from '.';
 
 export default {
-  title: 'Navbar',
-  component: Navbar,
+  title: 'NavLink',
+  component: NavLink,
   decorators: [(Story) => <BrowserRouter><Story /></BrowserRouter>],
 } as Meta;
 
-export const Template = () => (
-  <Navbar />
+export const Default = () => (
+  <NavLink to="/">
+    CryptoKitties
+  </NavLink>
 );
