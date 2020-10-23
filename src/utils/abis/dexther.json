@@ -43,6 +43,18 @@
         "internalType": "uint256[]",
         "name": "offerTokensValues",
         "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "expectedTokens",
+        "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "restrictedTo",
+        "type": "address"
       }
     ],
     "name": "Created",
@@ -108,6 +120,11 @@
       },
       {
         "internalType": "address",
+        "name": "restrictedTo",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "swapper",
         "type": "address"
       },
@@ -152,6 +169,16 @@
         "internalType": "uint256[]",
         "name": "offerTokensValues",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "expectedTokens",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address",
+        "name": "restrictedTo",
+        "type": "address"
       }
     ],
     "name": "createOffer",

@@ -25,7 +25,7 @@ const lightTheme: DefaultTheme = {
   colors: {
     brand: '#FEDE48',
     primary: '#000',
-    secondary: '#666666',
+    secondary: '#888888',
     inverted: '#fff',
     light: '#f7f1e1',
     background: '#fff',
