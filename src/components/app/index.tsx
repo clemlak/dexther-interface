@@ -19,6 +19,7 @@ import Header from '../header';
 import Footer from '../footer';
 
 import Home from '../../routes/home';
+import Create from '../../routes/create';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Header />
               <Switch>
                 <Route path="/" exact component={Home} />
+                <Route path="/create" exact component={Create} />
               </Switch>
               <Footer />
             </Web3ContextProvider>
