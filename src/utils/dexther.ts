@@ -1,6 +1,7 @@
 import {
   Contract,
   providers,
+  BigNumber,
 } from 'ethers';
 
 import dextherAbi from './abis/dexther.json';
@@ -11,7 +12,7 @@ function getContract(
   chainId: string,
 ) {
   const contractAddress = '0x97632340F1A717223Af560Ce86fFF70a56D3De4F';
-  const contract = new Contract(contractAddress, dextherAbi, provider);
+  const contract = new Contract(contractAddress, dextherAbi, provider.getSigner());
 
   return contract;
 }
@@ -19,9 +20,9 @@ function getContract(
 async function createOffer(
   provider: providers.Web3Provider,
   chainId: string,
-  estimateAmount: string,
+  estimateAmount: BigNumber,
   estimateTokenAddress: string,
-  offerTokensAddresses: string,
+  offerTokensAddresses: string[],
   offerTokensIds: string[],
   offerTokensValues: string[],
   expectedTokens: string[],

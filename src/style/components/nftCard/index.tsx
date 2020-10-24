@@ -6,6 +6,8 @@ interface CardInterface {
 }
 
 const Card = styled.div<CardInterface>`
+  box-sizing: border-box;
+
   border-radius: ${(props) => props.theme.border.radius};
   border-width: ${(props) => props.theme.border.width};
   border-color: ${(props) => (props.isSelected ? '#3C91E6' : props.theme.colors.secondary)};

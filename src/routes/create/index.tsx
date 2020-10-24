@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 import React, {
   useContext, useEffect, useState,
 } from 'react';
@@ -5,6 +7,11 @@ import {
   Flex,
   Box,
 } from 'reflexbox';
+import {
+  providers,
+  utils,
+  constants,
+} from 'ethers';
 
 import {
   Web3Context,
@@ -27,6 +34,13 @@ import {
 import {
   createOffer,
 } from '../../utils/dexther';
+
+import {
+  isApprovedForAllErc721,
+  setApprovalForAllErc721,
+} from '../../utils/tokenUtils';
+
+import config from '../../utils/config.json';
 
 interface OpenSeaAsset {
   asset_contract: {
@@ -70,9 +84,9 @@ function Create() {
   } = state;
 
   const [assets, setAssets] = useState<Asset[]>([]);
-  const [selectedTokens, setSelectedTokens] = useState<Number[]>([]);
-
+  const [selectedAssets, setSelectedAssets] = useState<number[]>([]);
   const [estimateValue, setEstimateValue] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function getUserAssets() {
@@ -91,9 +105,9 @@ function Create() {
               imageUrl: openSeaAssets[i].asset_contract.image_url,
               type: openSeaAssets[i].asset_contract.schema_name,
             },
-            name: openSeaAssets[i].name,
+            name: openSeaAssets[i].name ? openSeaAssets[i].name : 'N / A',
             tokenId: openSeaAssets[i].token_id,
-            imageUrl: openSeaAssets[i].image_url,
+            imageUrl: openSeaAssets[i].image_url ? openSeaAssets[i].image_url : 'https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png',
           };
 
           formattedAssets.push(asset);
@@ -146,20 +160,21 @@ function Create() {
       {assets.length > 0 ? assets.map((asset: Asset, index: number) => (
         <Box
           key={asset.tokenId}
-          width={1 / 2}
+          width={[1, 1 / 2]}
+          p="10px"
         >
           <NftCard
             imageUrl={asset.imageUrl}
             assetName={asset.name}
             contractName={asset.contract.name}
-            isSelected={selectedTokens.includes(index)}
+            isSelected={selectedAssets.includes(index)}
             onClick={() => {
-              if (selectedTokens.includes(index)) {
-                const newSelectedTokens = selectedTokens.filter((value) => value !== index);
-                console.log(newSelectedTokens);
-                setSelectedTokens([...newSelectedTokens]);
+              if (selectedAssets.includes(index)) {
+                const newSelectedAssets = selectedAssets.filter((value) => value !== index);
+                console.log(newSelectedAssets);
+                setSelectedAssets([...newSelectedAssets]);
               } else {
-                setSelectedTokens([...selectedTokens, index]);
+                setSelectedAssets([...selectedAssets, index]);
               }
             }}
           />
@@ -210,8 +225,64 @@ function Create() {
           genre="inverted"
           size="m"
           block
-          disabled={selectedTokens.length === 0 || estimateValue === ''}
-          onClick={async () => {}}
+          disabled={selectedAssets.length === 0 || estimateValue === ''}
+          isLoading={isLoading}
+          onClick={async () => {
+            setIsLoading(true);
+
+            try {
+              const offerTokensAddresses: string[] = [];
+              const offerTokensIds: string[] = [];
+              const offerTokensValues: string[] = [];
+
+              for (let i = 0; i < selectedAssets.length; i += 1) {
+                const index: number = selectedAssets[i];
+                const asset = assets[index];
+                console.log(asset.contract.address);
+
+                const isApproved = await isApprovedForAllErc721(
+                  provider as providers.Web3Provider,
+                  asset.contract.address,
+                  address,
+                  config.contracts.dexther[4],
+                );
+
+                console.log(isApproved);
+
+                if (!isApproved) {
+                  const receipt = await setApprovalForAllErc721(
+                    provider as providers.Web3Provider,
+                    asset.contract.address,
+                    config.contracts.dexther[4],
+                  );
+
+                  console.log(receipt);
+                }
+
+                offerTokensAddresses.push(asset.contract.address);
+                offerTokensIds.push(asset.tokenId);
+                offerTokensValues.push('1');
+              }
+
+              const receipt = await createOffer(
+                provider as providers.Web3Provider,
+                '4',
+                utils.parseEther(estimateValue),
+                '0x57780c1d69F40a459f1a227aed2BD9cA4850eF5B',
+                offerTokensAddresses,
+                offerTokensIds,
+                offerTokensValues,
+                [],
+                constants.AddressZero,
+              );
+
+              console.log(receipt);
+            } catch (e) {
+              console.log(e);
+            } finally {
+              setIsLoading(false);
+            }
+          }}
         >
           Create offer
         </Button>

@@ -2,6 +2,7 @@ import {
   Contract,
   ContractInterface,
   providers,
+  utils,
 } from 'ethers';
 
 import erc20AbiJson from './abis/erc20.json';
@@ -67,6 +68,22 @@ async function balanceOfErc20(
   }
 }
 
+async function isStandardErc721(
+  provider: providers.Web3Provider,
+  tokenAddress: string,
+) {
+  try {
+    const bytes = utils.toUtf8Bytes('setApprovalForAll(address,bool)');
+    const sig = utils.keccak256(bytes).slice(2, 8);
+    const code = await provider.getCode(tokenAddress);
+
+    return code.includes(sig);
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot read contract');
+  }
+}
+
 async function approveErc721(
   provider: providers.Web3Provider,
   tokenAddress: string,
@@ -87,12 +104,12 @@ async function approveErc721(
   }
 }
 
-async function setApproveForAllErc721(
+async function setApprovalForAllErc721(
   provider: providers.Web3Provider,
   tokenAddress: string,
   spender: string,
 ) {
-  const contract = new Contract(tokenAddress, erc721Abi, provider);
+  const contract = new Contract(tokenAddress, erc721Abi, provider.getSigner());
 
   try {
     const tx = await contract.setApprovalForAll(spender, true);
@@ -162,11 +179,12 @@ async function isApprovedForAllErc1155(
 }
 
 export {
+  isStandardErc721,
   approveErc20,
   allowanceErc20,
   balanceOfErc20,
   approveErc721,
-  setApproveForAllErc721,
+  setApprovalForAllErc721,
   setApprovalForAllErc1155,
   isApprovedForAllErc1155,
   isApprovedForAllErc721,
