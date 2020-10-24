@@ -24,6 +24,10 @@ import {
   getAssets,
 } from '../../utils/openSea';
 
+import {
+  createOffer,
+} from '../../utils/dexther';
+
 interface OpenSeaAsset {
   asset_contract: {
     address: string;
@@ -67,6 +71,8 @@ function Create() {
 
   const [assets, setAssets] = useState<Asset[]>([]);
   const [selectedTokens, setSelectedTokens] = useState<Number[]>([]);
+
+  const [estimateValue, setEstimateValue] = useState<string>('');
 
   useEffect(() => {
     async function getUserAssets() {
@@ -174,14 +180,26 @@ function Create() {
       </Box>
       <Box
         width={[1 / 2]}
+        pr="5px"
       >
-        <Input placeholder="Enter value here" />
+        <Input
+          placeholder="Enter value here"
+          value={estimateValue}
+          onChange={(e) => setEstimateValue(e.target.value)}
+          type="number"
+          block
+        />
       </Box>
       <Box
         width={[1 / 2]}
+        pl="5px"
       >
-        <Button genre="primary" size="m">
-          Select a token
+        <Button
+          genre="primary"
+          size="m"
+          block
+        >
+          DAI
         </Button>
       </Box>
       <Box
@@ -192,6 +210,8 @@ function Create() {
           genre="inverted"
           size="m"
           block
+          disabled={selectedTokens.length === 0 || estimateValue === ''}
+          onClick={async () => {}}
         >
           Create offer
         </Button>

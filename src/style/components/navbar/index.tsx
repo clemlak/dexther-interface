@@ -24,18 +24,20 @@ const Logo = styled.h1`
 function Navbar() {
   return (
     <NavbarWrapper
-      p={10}
-      paddingBottom={20}
+      py="10px"
+      px="40px"
+      paddingBottom="20px"
       alignItems="center"
     >
       <Logo>
-        Dexter
+        Dexther
       </Logo>
       <Box mx="auto" />
       <NavLink to="/">Offers</NavLink>
       <NavLink to="/">How it works</NavLink>
       <NavLink to="/">Help</NavLink>
       <Box mx="auto" />
+      <NavLink to="/create">Create an offer</NavLink>
       <Web3Connector />
     </NavbarWrapper>
   );
