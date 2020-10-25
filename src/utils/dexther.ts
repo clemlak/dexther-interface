@@ -25,6 +25,7 @@ declare global {
     swapTokensAddresses: string[];
     swapTokensIds: BigNumber[];
     swapTokensValues: BigNumber[];
+    status: BigNumber;
   }
 }
 

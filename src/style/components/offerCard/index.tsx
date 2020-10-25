@@ -6,9 +6,13 @@ import {
   Box,
   Flex,
 } from 'reflexbox';
+import {
+  BigNumber,
+} from 'ethers';
 
 import NftPreview from '../nftPreview';
 import Tag from '../tag';
+
 
 const OfferWrapper = styled.div`
   box-sizing: border-box;
@@ -53,26 +57,18 @@ declare global {
 
 interface OfferCardInterface {
   offerId: string;
-  creator: string;
   estimateAmount: string;
   estimateTokenAddress: string;
   offerTokens: Nft[];
-  swapper: string;
-  swappedAt: number;
-  swapTokens: Nft[];
-  status: string;
+  status: BigNumber;
 }
 
 function OfferCard(props: OfferCardInterface) {
   const {
     offerId,
-    creator,
     estimateAmount,
     estimateTokenAddress,
     offerTokens,
-    swapper,
-    swappedAt,
-    swapTokens,
     status,
   } = props;
 

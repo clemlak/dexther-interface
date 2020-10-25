@@ -90,9 +90,10 @@ function Home() {
             >
               <OfferCard
                 offerId="0"
-                creator={offer.creator}
                 estimateAmount={utils.formatEther(offer.estimateAmount)}
                 estimateTokenAddress={offer.estimateTokenAddress}
+                offerTokens={[]}
+                status={offer.status}
               />
             </Box>
           ))}
