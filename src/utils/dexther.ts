@@ -6,11 +6,9 @@ import {
   BigNumber,
   ContractInterface,
 } from 'ethers';
-import axios from 'axios';
 
 import {
-  tokenURI,
-  getMetadata,
+  getAsset,
 } from './tokenUtils';
 
 import dextherAbiJson from './abis/dexther.json';
@@ -138,13 +136,13 @@ async function getOffers(
         console.log(offer);
 
         for (let j = 0; j < offer.offerTokensAddresses.length; j += 1) {
-          const metadata = await getMetadata(
+          const asset = await getAsset(
             provider,
             offer.offerTokensAddresses[j],
             offer.offerTokensIds[j],
           );
 
-          console.log(metadata);
+          console.log(asset);
         }
 
         offers.push(offer);

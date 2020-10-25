@@ -20,7 +20,7 @@ import {
 } from '../../utils/dexther';
 
 import {
-  tokenURI,
+  getAsset,
 } from '../../utils/tokenUtils';
 
 import {
