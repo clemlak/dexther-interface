@@ -10,6 +10,24 @@ import config from './config.json';
 
 const dextherAbi = dextherAbiJson as ContractInterface;
 
+declare global {
+  interface Offer {
+    creator: string;
+    estimateAmount: BigNumber;
+    estimateTokenAddress: string;
+    offerTokensAddresses: string[];
+    offerTokensValues: BigNumber[];
+    offersTokensIds: BigNumber[];
+    expectedTokens: string[];
+    restrictedTo: string;
+    swapper: string;
+    swappedAt: string;
+    swapTokensAddresses: string[];
+    swapTokensIds: BigNumber[];
+    swapTokensValues: BigNumber[];
+  }
+}
+
 function getContract(
   provider: providers.Web3Provider,
   chainId: string,
@@ -69,22 +87,6 @@ async function cancelOffer(
     console.log(e);
     throw new Error('Cannot cancel offer');
   }
-}
-
-interface Offer {
-  creator: string;
-  estimateAmount: BigNumber;
-  estimateTokenAddress: string;
-  offerTokensAddresses: string[];
-  offerTokensValues: BigNumber[];
-  offersTokensIds: BigNumber[];
-  expectedTokens: string[];
-  restrictedTo: string;
-  swapper: string;
-  swappedAt: string;
-  swapTokensAddresses: string[];
-  swapTokensIds: BigNumber[];
-  swapTokensValues: BigNumber[];
 }
 
 async function getOffer(

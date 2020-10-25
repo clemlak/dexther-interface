@@ -99,7 +99,7 @@ function NFTPreview(props: NFTPreviewnterface) {
     <NFTWrapper>
       <Thumbnail src={imageUrl} alt={assetName} />
       <TopOverlay>
-        <Tag genre="default" bold>
+        <Tag genre="inverted" bold>
           {contractName}
         </Tag>
       </TopOverlay>
@@ -118,7 +118,7 @@ function NFTPreview(props: NFTPreviewnterface) {
         </>
       )}
       <BottomOverlay>
-        <Tag genre="default">
+        <Tag genre="inverted">
           {assetName}
         </Tag>
       </BottomOverlay>

@@ -11,19 +11,15 @@ import {
 
 import OfferCard from '.';
 
-const Background = styled(Flex)`
-  background-color: ${(props) => props.theme.colors.light};
-`;
-
 export default {
   title: 'OfferCard',
   component: OfferCard,
   decorators: [(Story) => (
-    <Background flexWrap="wrap">
-      <Box width={1 / 5} padding="20px">
+    <Flex flexWrap="wrap">
+      <Box width={1 / 3}>
         <Story />
       </Box>
-    </Background>
+    </Flex>
   )],
 } as Meta;
 

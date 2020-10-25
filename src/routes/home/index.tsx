@@ -1,7 +1,15 @@
 import React, {
   useContext,
   useEffect,
+  useState,
 } from 'react';
+import {
+  Flex,
+  Box,
+} from 'reflexbox';
+import {
+  utils,
+} from 'ethers';
 
 import {
   Web3Context,
@@ -14,6 +22,11 @@ import {
 import {
   getOffers,
 } from '../../utils/dexther';
+
+import {
+  OfferCard,
+  Text,
+} from '../../style/components';
 
 function Home() {
   const web3Context = useContext(Web3Context);
@@ -28,6 +41,8 @@ function Home() {
     chainId,
     isWalletConnected,
   } = state;
+
+  const [offers, setOffers] = useState<Offer[]>([]);
 
   useEffect(() => {
     async function getUserAssets() {
@@ -49,6 +64,8 @@ function Home() {
       try {
         const res = await getOffers(provider, '4');
         console.log(res);
+
+        setOffers(res);
       } catch (e) {
         console.log(e);
       }
@@ -58,16 +75,36 @@ function Home() {
   }, [provider]);
 
   return (
-    <>
-      <ul>
-        <li>
-          {`Is Wallet Connected: ${isWalletConnected}`}
-        </li>
-        <li>
-          {`Chain ID: ${chainId}`}
-        </li>
-      </ul>
-    </>
+    <Flex
+      flexWrap="wrap"
+      alignItems="center"
+      width={[1, 1 / 2]}
+      mx="auto"
+    >
+      {offers.length > 0 ? (
+        <>
+          {offers.map((offer) => (
+            <Box
+              width={[1, 1 / 2]}
+              p="10px"
+            >
+              <OfferCard
+                offerId="0"
+                creator={offer.creator}
+                estimateAmount={utils.formatEther(offer.estimateAmount)}
+                estimateTokenAddress={offer.estimateTokenAddress}
+              />
+            </Box>
+          ))}
+        </>
+      ) : (
+        <Box>
+          <Text>
+            Fetching offers...
+          </Text>
+        </Box>
+      )}
+    </Flex>
   );
 }
 
