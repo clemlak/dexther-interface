@@ -11,6 +11,10 @@ import {
   getAssets,
 } from '../../utils/openSea';
 
+import {
+  getOffers,
+} from '../../utils/dexther';
+
 function Home() {
   const web3Context = useContext(Web3Context);
 
@@ -39,6 +43,19 @@ function Home() {
       getUserAssets();
     }
   }, [address]);
+
+  useEffect(() => {
+    async function getCurrentOffers() {
+      try {
+        const res = await getOffers(provider, '4');
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getCurrentOffers();
+  }, [provider]);
 
   return (
     <>

@@ -57,51 +57,75 @@ function Web3Connector() {
     }
   }, [provider, isWalletConnected, address, chainId]);
 
+  async function saveConnect() {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      dispatch({
+        type: 'set',
+        target: 'address',
+        value: utils.getAddress(accounts[0]),
+      });
+
+      dispatch({
+        type: 'set',
+        target: 'isWalletConnected',
+        value: true,
+      });
+
+      dispatch({
+        type: 'set',
+        target: 'provider',
+        value: new providers.Web3Provider(window.ethereum),
+      });
+
+      dispatch({
+        type: 'set',
+        target: 'chainId',
+        value: window.ethereum.chainId,
+      });
+
+      window.ethereum.on('accountsChanged', (newAccounts: Array<string>) => {
+        dispatch({
+          type: 'set',
+          target: 'address',
+          value: utils.getAddress(newAccounts[0]),
+        });
+      });
+
+      window.ethereum.on('chainChanged', (newChainId: string) => {
+        console.log(newChainId);
+
+        // Quick fix to avoid a crash of Ethers.js
+        window.location.reload();
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    async function isConnected() {
+      if (typeof window.ethereum !== 'undefined') {
+        console.log(window.ethereum.isConnected());
+
+        try {
+          saveConnect();
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+
+    isConnected();
+  }, []);
+
   async function connect() {
     setIsLoading(true);
 
     try {
       if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-        dispatch({
-          type: 'set',
-          target: 'address',
-          value: utils.getAddress(accounts[0]),
-        });
-
-        dispatch({
-          type: 'set',
-          target: 'isWalletConnected',
-          value: true,
-        });
-
-        dispatch({
-          type: 'set',
-          target: 'provider',
-          value: new providers.Web3Provider(window.ethereum),
-        });
-
-        dispatch({
-          type: 'set',
-          target: 'chainId',
-          value: window.ethereum.chainId,
-        });
-
-        window.ethereum.on('accountsChanged', (newAccounts: Array<string>) => {
-          dispatch({
-            type: 'set',
-            target: 'address',
-            value: utils.getAddress(newAccounts[0]),
-          });
-        });
-
-        window.ethereum.on('chainChanged', (newChainId: string) => {
-          console.log(newChainId);
-
-          // Quick fix to avoid a crash of Ethers.js
-          window.location.reload();
-        });
+        await saveConnect();
       }
     } catch (e) {
       console.log(e);

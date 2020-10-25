@@ -7,7 +7,7 @@ import {
 } from 'ethers';
 
 interface IWeb3State {
-  provider: providers.JsonRpcProvider | providers.Web3Provider | undefined;
+  provider: providers.JsonRpcProvider | providers.Web3Provider;
   address: string;
   chainId: string;
   isWalletConnected: boolean;
@@ -20,7 +20,7 @@ export interface IWeb3Context {
 
 const Web3Context = createContext<IWeb3Context>({
   state: {
-    provider: undefined,
+    provider: new providers.InfuraProvider(4, '8fc6340cde624d33874ca8603ddaa502'),
     address: '',
     chainId: '1',
     isWalletConnected: false,
@@ -50,9 +50,9 @@ function web3Reducer(
 }
 
 const initialWeb3State: IWeb3State = {
-  provider: new providers.InfuraProvider(1, '8fc6340cde624d33874ca8603ddaa502'),
+  provider: new providers.InfuraProvider(4, '8fc6340cde624d33874ca8603ddaa502'),
   address: '',
-  chainId: '1',
+  chainId: '4',
   isWalletConnected: false,
 };
 
