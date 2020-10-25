@@ -387,7 +387,7 @@
           },
           {
             "internalType": "uint256[]",
-            "name": "offferTokensIds",
+            "name": "offerTokensIds",
             "type": "uint256[]"
           },
           {

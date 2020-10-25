@@ -4,6 +4,9 @@ import {
   Flex,
   Box,
 } from 'reflexbox/styled-components';
+import {
+  BigNumber,
+} from 'ethers';
 
 import {
   Meta,
@@ -48,13 +51,9 @@ const swapTokens: Nft[] = [
 export const Standard = () => (
   <OfferCard
     offerId="Offer 0"
-    creator="0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3"
     estimateAmount="100"
     estimateTokenAddress="0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3"
     offerTokens={offerTokens}
-    swapper=""
-    swapTokens={swapTokens}
-    status="Available"
-    swappedAt={0}
+    status={BigNumber.from(0)}
   />
 );

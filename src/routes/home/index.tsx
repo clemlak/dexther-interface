@@ -16,12 +16,12 @@ import {
 } from '../../store/web3ContextProvider';
 
 import {
-  getAssets,
-} from '../../utils/openSea';
-
-import {
   getOffers,
 } from '../../utils/dexther';
+
+import {
+  tokenURI,
+} from '../../utils/tokenUtils';
 
 import {
   OfferCard,
@@ -43,21 +43,6 @@ function Home() {
   } = state;
 
   const [offers, setOffers] = useState<Offer[]>([]);
-
-  useEffect(() => {
-    async function getUserAssets() {
-      try {
-        const assets = await getAssets('rinkeby', address);
-        console.log(assets);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    if (address !== '') {
-      getUserAssets();
-    }
-  }, [address]);
 
   useEffect(() => {
     async function getCurrentOffers() {
@@ -88,6 +73,7 @@ function Home() {
               width={[1, 1 / 2]}
               p="10px"
             >
+              {/*
               <OfferCard
                 offerId="0"
                 estimateAmount={utils.formatEther(offer.estimateAmount)}
@@ -95,6 +81,7 @@ function Home() {
                 offerTokens={[]}
                 status={offer.status}
               />
+              */}
             </Box>
           ))}
         </>

@@ -30,7 +30,7 @@ import {
 } from '../../style/components';
 
 import {
-  getAssets,
+  getUserAssets,
 } from '../../utils/openSea';
 
 import {
@@ -42,33 +42,7 @@ import {
   setApprovalForAllErc721,
 } from '../../utils/tokenUtils';
 
-import config from '../../utils/config.json';
-
-interface OpenSeaAsset {
-  asset_contract: {
-    address: string;
-    name: string;
-    symbol: string;
-    image_url: string;
-    schema_name: string;
-  };
-  name: string;
-  token_id: string;
-  image_url: string;
-}
-
-interface Asset {
-  contract: {
-    address: string;
-    name: string;
-    symbol: string;
-    imageUrl: string;
-    type: string;
-  },
-  name: string;
-  tokenId: string;
-  imageUrl: string;
-}
+import config from '../../utils/config';
 
 function Create() {
   const web3Context = useContext(Web3Context);
@@ -91,9 +65,9 @@ function Create() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    async function getUserAssets() {
+    async function doGetUserAssets() {
       try {
-        const res = await getAssets(chainId, address);
+        const res = await getUserAssets(chainId, address);
         const openSeaAssets: OpenSeaAsset[] = res.assets;
 
         const formattedAssets: Asset[] = [];
@@ -122,7 +96,7 @@ function Create() {
     }
 
     if (address !== '' && isWalletConnected) {
-      getUserAssets();
+      doGetUserAssets();
     }
   }, [provider, chainId, address, isWalletConnected]);
 

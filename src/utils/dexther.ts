@@ -1,12 +1,20 @@
+/* eslint-disable no-await-in-loop */
+
 import {
   Contract,
   providers,
   BigNumber,
   ContractInterface,
 } from 'ethers';
+import axios from 'axios';
+
+import {
+  tokenURI,
+  getMetadata,
+} from './tokenUtils';
 
 import dextherAbiJson from './abis/dexther.json';
-import config from './config.json';
+import config from './config';
 
 const dextherAbi = dextherAbiJson as ContractInterface;
 
@@ -16,8 +24,8 @@ declare global {
     estimateAmount: BigNumber;
     estimateTokenAddress: string;
     offerTokensAddresses: string[];
+    offerTokensIds: BigNumber[];
     offerTokensValues: BigNumber[];
-    offersTokensIds: BigNumber[];
     expectedTokens: string[];
     restrictedTo: string;
     swapper: string;
@@ -30,13 +38,16 @@ declare global {
 }
 
 function getContract(
-  provider: providers.Web3Provider,
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
 ) {
-  const contractAddress = '0x18a4c4D0fEd36F715d264D4A3e051AE719388D19';
-  const contract = new Contract(contractAddress, dextherAbi, provider.getSigner());
+  const contractAddress = config.contracts.dexther[chainId];
 
-  return contract;
+  if (provider instanceof providers.Web3Provider) {
+    return new Contract(contractAddress, dextherAbi, provider.getSigner());
+  }
+
+  return new Contract(contractAddress, dextherAbi, provider);
 }
 
 async function createOffer(
@@ -95,8 +106,7 @@ async function getOffer(
   chainId: string,
   offerId: BigNumber,
 ) {
-  const contractAddress = '0x18a4c4D0fEd36F715d264D4A3e051AE719388D19';
-  const contract = new Contract(contractAddress, dextherAbi, provider);
+  const contract = getContract(provider, chainId);
 
   try {
     const offer = await contract.getOffer(offerId);
@@ -111,8 +121,7 @@ async function getOffers(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
 ) {
-  const contractAddress = '0x18a4c4D0fEd36F715d264D4A3e051AE719388D19';
-  const contract = new Contract(contractAddress, dextherAbi, provider);
+  const contract = getContract(provider, chainId);
 
   try {
     const filter = contract.filters.Created();
@@ -124,9 +133,20 @@ async function getOffers(
       if (logs[i]?.args?.offerId !== undefined) {
         const offerId = logs[i]?.args?.offerId;
 
-        // eslint-disable-next-line no-await-in-loop
         const offer: Offer = await getOffer(provider, chainId, offerId);
+
         console.log(offer);
+
+        for (let j = 0; j < offer.offerTokensAddresses.length; j += 1) {
+          const metadata = await getMetadata(
+            provider,
+            offer.offerTokensAddresses[j],
+            offer.offerTokensIds[j],
+          );
+
+          console.log(metadata);
+        }
+
         offers.push(offer);
       }
     }

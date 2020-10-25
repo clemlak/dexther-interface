@@ -3,7 +3,9 @@ import {
   ContractInterface,
   providers,
   utils,
+  BigNumber,
 } from 'ethers';
+import axios from 'axios';
 
 import erc20AbiJson from './abis/erc20.json';
 import erc721AbiJson from './abis/erc721.json';
@@ -118,8 +120,71 @@ async function setApprovalForAllErc721(
     return receipt;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot set approve for all');
+  }
+}
+
+async function tokenURI(
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
+  tokenAddress: string,
+  tokenId: BigNumber,
+) {
+  const contract = new Contract(tokenAddress, erc721Abi, provider);
+
+  try {
+    const uri = await contract.tokenURI(tokenId);
+    return uri;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot get token URI');
+  }
+}
+
+async function getMetadata(
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
+  tokenAddress: string,
+  tokenId: BigNumber,
+) {
+  try {
+    const uri = await tokenURI(provider, tokenAddress, tokenId);
+    const res = await axios.get(uri);
+    const metadata: Metadata = res.data;
+    return metadata;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot get metadata');
+  }
+}
+
+async function getAsset(
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
+  tokenAddress: string,
+  tokenId: BigNumber,
+) {
+  try {
+    const contract = new Contract(tokenAddress, erc721Abi, provider);
+    const name = await contract.name();
+    const symbol = await contract.symbol();
+
+    const metadata: Metadata = await getMetadata(provider, tokenAddress, tokenId);
+
+    const asset: Asset = {
+      contract: {
+        address: tokenAddress,
+        name,
+        symbol,
+        imageUrl: '',
+        type: 'ERC721',
+      },
+      name: metadata.properties.name.description,
+      tokenId: tokenId.toString(),
+      imageUrl: metadata.properties.image.description,
+    };
+
+    return asset;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot get asset');
   }
 }
 
@@ -184,8 +249,11 @@ export {
   allowanceErc20,
   balanceOfErc20,
   approveErc721,
+  tokenURI,
   setApprovalForAllErc721,
   setApprovalForAllErc1155,
   isApprovedForAllErc1155,
   isApprovedForAllErc721,
+  getMetadata,
+  getAsset,
 };

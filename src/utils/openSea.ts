@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function getAssets(network: string, owner: string) {
+async function getUserAssets(network: string, owner: string) {
   try {
     const api = network === 'mainnet' ? 'api' : 'rinkeby-api';
 
@@ -12,9 +12,10 @@ async function getAssets(network: string, owner: string) {
     return res.data;
   } catch (e) {
     console.log(e);
+    throw new Error('Cannot get user assets');
   }
 }
 
 export {
-  getAssets,
+  getUserAssets,
 };

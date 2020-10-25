@@ -15,12 +15,6 @@ import {
   Button,
 } from '../../style/components';
 
-declare global {
-  interface Window {
-    ethereum: any,
-    web3: any,
-  }
-}
 
 function Web3Connector() {
   const web3Context = useContext(Web3Context);
@@ -106,9 +100,7 @@ function Web3Connector() {
 
   useEffect(() => {
     async function isConnected() {
-      if (typeof window.ethereum !== 'undefined') {
-        console.log(window.ethereum.isConnected());
-
+      if (typeof window.ethereum !== 'undefined' && window.ethereum.isConnected) {
         try {
           saveConnect();
         } catch (e) {

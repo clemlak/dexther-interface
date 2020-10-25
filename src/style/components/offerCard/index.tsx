@@ -13,7 +13,6 @@ import {
 import NftPreview from '../nftPreview';
 import Tag from '../tag';
 
-
 const OfferWrapper = styled.div`
   box-sizing: border-box;
 
