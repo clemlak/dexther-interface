@@ -128,7 +128,7 @@ function Web3Connector() {
 
   return (
     <Button
-      genre="inverted"
+      genre="primary"
       size="m"
       onClick={() => connect()}
       isLoading={isLoading}

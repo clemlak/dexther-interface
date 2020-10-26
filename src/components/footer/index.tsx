@@ -5,12 +5,21 @@ import {
 } from 'reflexbox';
 import styled from 'styled-components';
 
+import {
+  Link,
+} from '../../style/components';
+
 const FooterText = styled.p`
   color: ${(props) => props.theme.colors.secondary};
   font-family: ${(props) => props.theme.font.family};
   font-size: 14px;
   font-weight: ${(props) => props.theme.font.weight.regular};
   text-align: center;
+`;
+
+const FooterLink = styled(Link)`
+  font-size: 14px;
+  margin: 0;
 `;
 
 function Footer() {
@@ -25,7 +34,13 @@ function Footer() {
         <FooterText>
           Made with ♥ by
           {' '}
-          <a href="https://twitter.com/clementcodes">Clemlak</a>
+          <FooterLink
+            href="https://twitter.com/clementcodes"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Clemlak
+          </FooterLink>
         </FooterText>
       </Box>
     </Flex>

@@ -10,6 +10,7 @@ import Tag from './tag';
 import Subtitle from './subtitle';
 import Input from './input';
 import NftCard from './nftCard';
+import Link from './link';
 
 export {
   Button,
@@ -24,4 +25,5 @@ export {
   Subtitle,
   Input,
   NftCard,
+  Link,
 };

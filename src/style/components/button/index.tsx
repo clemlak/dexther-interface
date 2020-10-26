@@ -15,7 +15,7 @@ const loading = () => keyframes`
 
 interface ButtonInterface {
   genre: 'primary' | 'inverted' | 'brand';
-  size: 'l' | 'm';
+  size: 'l' | 'm' | 's';
   block?: boolean;
   dashed?: boolean;
   isLoading?: boolean;

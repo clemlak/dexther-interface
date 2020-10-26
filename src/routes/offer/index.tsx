@@ -10,6 +10,7 @@ import {
   Flex,
   Box,
 } from 'reflexbox';
+import styled from 'styled-components';
 
 import {
   Web3Context,
@@ -28,7 +29,22 @@ import {
   NftCard,
   Button,
 } from '../../style/components';
-import { off } from 'process';
+
+const OfferTitle = styled(Title)`
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+`;
+
+const OfferTag = styled(Tag)`
+  margin-left: 20px;
+  vertical-align: text-bottom;
+`;
+
+const AssetsSubtitle = styled(Subtitle)`
+  display: inline;
+  font-size: 16px;
+`;
 
 function OfferView() {
   const web3Context = useContext(Web3Context);
@@ -85,9 +101,51 @@ function OfferView() {
       ) : (
         <>
           <Box
-            width={1 / 2}
+            width={1}
+            pb={3}
           >
-            {offer.offerAssets.map((asset) => (
+            <OfferTitle>
+              {`Offer #${id}`}
+              <OfferTag genre="default">
+                {getStatus(offer.status)}
+              </OfferTag>
+            </OfferTitle>
+          </Box>
+
+          <Box
+            width={1 / 2}
+            pb={3}
+          >
+            <AssetsSubtitle>
+              {offer.offerAssets.length === 1 ? (
+                <>
+                  {`${offer.offerAssets.length} asset`}
+                </>
+              ) : (
+                <>
+                  {`${offer.offerAssets.length} assets`}
+                </>
+              )}
+            </AssetsSubtitle>
+          </Box>
+          <Box
+            width={1 / 2}
+            textAlign="right"
+            pb={3}
+          >
+            <Button
+              genre="brand"
+              size="s"
+            >
+              Swap
+            </Button>
+          </Box>
+
+          {offer.offerAssets.map((asset) => (
+            <Box
+              width={1 / 2}
+              pb={2}
+            >
               <NftCard
                 imageUrl={asset.imageUrl}
                 assetName={asset.name}
@@ -95,28 +153,8 @@ function OfferView() {
                 isSelected={false}
                 onClick={() => {}}
               />
-            ))}
-          </Box>
-          <Box
-            width={1 / 2}
-          >
-            <Box>
-              <Tag genre="default">
-                {getStatus(offer.status)}
-              </Tag>
             </Box>
-            <Box>
-              {offer.estimateAmount.toString()} {offer.estimateTokenAddress}
-            </Box>
-            <Box>
-              <Button
-                genre="inverted"
-                size="m"
-              >
-                Swap
-              </Button>
-            </Box>
-          </Box>
+          ))}
         </>
       )}
     </Flex>

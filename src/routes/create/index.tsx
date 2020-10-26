@@ -198,7 +198,7 @@ function Create() {
         pt="2rem"
       >
         <Button
-          genre="inverted"
+          genre="primary"
           size="m"
           block
           disabled={selectedAssets.length === 0 || estimateValue === ''}
