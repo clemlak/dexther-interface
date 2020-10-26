@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {
   Flex,
   Box,
@@ -26,36 +25,26 @@ export default {
   )],
 } as Meta;
 
-/*
-const offerTokens: Nft[] = [
+const offerAssets: Asset[] = [
   {
-    address: '0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3',
-    id: '42',
-    value: '0',
-    contractName: 'CryptoKitties',
+    contract: {
+      address: '0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3',
+      name: 'CryptoKitties',
+      symbol: 'CK',
+      imageUrl: '',
+      type: 'ERC721',
+    },
+    tokenId: '42',
     name: 'Cool Kitty',
     imageUrl: 'https://lh3.googleusercontent.com/SVU6AZUVgf8ZULxtUfbLPDarNzWXOWyPMRMO-R8rkrZV0CIcKKaEXGVcoYqIfePYKAKhDE1ejgNoLZX7f4z6N8oF',
   },
-  {
-    address: '0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3',
-    id: '15',
-    value: '0',
-    contractName: 'CryptoPunks',
-    name: 'Cool Punk',
-    imageUrl: 'https://lh3.googleusercontent.com/HUF-ufr2Mh7P89992wPqLaS5pfIcdBnxKDTJ9GLClDXeJrMmVLeZ00-RUXKpOOJ_uoVk_ko4ZiJKFcXUhR03q4QB=s0',
-  },
-];
-
-const swapTokens: Nft[] = [
 ];
 
 export const Standard = () => (
   <OfferCard
-    offerId="Offer 0"
     estimateAmount="100"
     estimateTokenAddress="0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3"
-    offerTokens={offerTokens}
+    offerAssets={offerAssets}
     status={BigNumber.from(0)}
   />
 );
-*/

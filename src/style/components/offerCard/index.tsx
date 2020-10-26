@@ -19,15 +19,11 @@ import {
 
 const OfferWrapper = styled.div`
   box-sizing: border-box;
-
-  border-radius: ${(props) => props.theme.border.radius};
-  border-width: ${(props) => props.theme.border.width};
-  border-color: ${(props) => props.theme.colors.secondary};
-  border-style: ${(props) => (props.theme.border.style)};
-
+  border: none;
+  border-radius: ${(props) => (props.theme.border.radius)};
   width: 100%;
-  background-color: ${(props) => props.theme.colors.background};
-  padding: 30px 25px;
+  padding: 30px;
+  background-color: ${(props) => (props.theme.colors.light)};
 `;
 
 const AssetsLabel = styled.p`
@@ -110,7 +106,7 @@ function OfferCard(props: OfferCardInterface) {
               setCarouselIndex(carouselIndex + 1);
             }
           }}
-          isCarousel
+          isCarousel={offerAssets.length > 0}
         />
       </Box>
       <Flex flexWrap="wrap">
