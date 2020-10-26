@@ -8,13 +8,6 @@ import {
   Box,
 } from 'reflexbox/styled-components';
 
-interface ModalInterface {
-  isOpen: boolean;
-  title: string,
-  children: JSX.Element | JSX.Element[] | Element | Element[],
-  toggle: Function,
-}
-
 interface WrapperProps {
   isOpen: boolean;
 }
@@ -35,9 +28,13 @@ const Wrapper = styled.div<WrapperProps>`
   justify-content: center;
 `;
 
-const Content = styled.div`
+interface ContentInterface {
+  maxWidth?: string;
+}
+
+const Content = styled.div<ContentInterface>`
   background-color: ${(props) => props.theme.colors.background};
-  max-width: 60vh;
+  max-width: ${(props) => (props.maxWidth ? props.maxWidth : '60vh')};
   width: 100%;
   border-radius: ${(props) => props.theme.border.radius};
   z-index: 100;
@@ -60,12 +57,21 @@ const CloseIcon = styled.svg`
   color: ${(props) => props.theme.colors.primary};
 `;
 
+interface ModalInterface {
+  isOpen: boolean;
+  title: string,
+  children: JSX.Element | JSX.Element[] | Element | Element[],
+  toggle: Function,
+  maxWidth?: string;
+}
+
 function Modal(props: ModalInterface) {
   const {
     isOpen,
     title,
     children,
     toggle,
+    maxWidth,
   } = props;
 
   useEffect(() => {
@@ -89,7 +95,10 @@ function Modal(props: ModalInterface) {
       isOpen={isOpen}
       onClick={(e) => handleClick(e)}
     >
-      <Content ref={contentRef}>
+      <Content
+        ref={contentRef}
+        maxWidth={maxWidth}
+      >
         <Flex flexWrap="wrap">
           <Box
             width={1 / 2}

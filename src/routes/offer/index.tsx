@@ -22,12 +22,17 @@ import {
 } from '../../utils/dexther';
 
 import {
+  getUserAssets,
+} from '../../utils/openSea';
+
+import {
   Text,
   Title,
   Subtitle,
   Tag,
   NftCard,
   Button,
+  Modal,
 } from '../../style/components';
 
 import Dai from '../../assets/icons/dai.png';
@@ -91,6 +96,7 @@ function OfferView() {
   } = state;
 
   const [offer, setOffer] = useState<OfferWithAssets>();
+  const [isModalOpen, toggle] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchOffer() {
@@ -110,96 +116,109 @@ function OfferView() {
   }, []);
 
   return (
-    <Flex
-      flexWrap="wrap"
-      alignItems="center"
-      width={[1, 1 / 2]}
-      mx="auto"
-    >
-      {offer === undefined ? (
-        <Box
-          width={1}
-        >
-          <Text>
-            No offer...
-          </Text>
-        </Box>
-      ) : (
-        <>
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        title="Swap"
+        toggle={() => toggle(!isModalOpen)}
+        maxWidth="120vh"
+      >
+        <Text>
+          Plop
+        </Text>
+      </Modal>
+      <Flex
+        flexWrap="wrap"
+        alignItems="center"
+        width={[1, 1 / 2]}
+        mx="auto"
+      >
+        {offer === undefined ? (
           <Box
             width={1}
-            pb={3}
           >
-            <OfferTitle>
-              {`Offer #${id}`}
-              <OfferTag genre="default">
-                {getStatus(offer.status)}
-              </OfferTag>
-            </OfferTitle>
+            <Text>
+              No offer...
+            </Text>
           </Box>
-          <Box
-            width={1 / 2}
-            pb={3}
-          >
-            <AssetsSubtitle>
-              {offer.offerAssets.length === 1 ? (
-                <>
-                  {`${offer.offerAssets.length} asset`}
-                </>
-              ) : (
-                <>
-                  {`${offer.offerAssets.length} assets`}
-                </>
-              )}
-            </AssetsSubtitle>
-          </Box>
-          <Box
-            width={1 / 2}
-            pb={3}
-          >
-            <Flex
-              alignItems="center"
-              justifyContent="flex-end"
+        ) : (
+          <>
+            <Box
+              width={1}
+              pb={3}
             >
-              <EstimateLabel>
-                Estimated value
-              </EstimateLabel>
-              <DaiLogo src={Dai} alt="Dai logo" />
-              <EstimateAmountLabel>
-                {`${offer.estimateAmount} DAI`}
-              </EstimateAmountLabel>
-            </Flex>
-          </Box>
-          {offer.offerAssets.map((asset) => (
+              <OfferTitle>
+                {`Offer #${id}`}
+                <OfferTag genre="default">
+                  {getStatus(offer.status)}
+                </OfferTag>
+              </OfferTitle>
+            </Box>
             <Box
               width={1 / 2}
-              pb={2}
-              key={`${asset.contract.address}/${asset.tokenId}`}
+              pb={3}
             >
-              <NftCard
-                imageUrl={asset.imageUrl}
-                assetName={asset.name}
-                contractName={asset.contract.name}
-                isSelected={false}
-                onClick={() => {}}
-              />
+              <AssetsSubtitle>
+                {offer.offerAssets.length === 1 ? (
+                  <>
+                    {`${offer.offerAssets.length} asset`}
+                  </>
+                ) : (
+                  <>
+                    {`${offer.offerAssets.length} assets`}
+                  </>
+                )}
+              </AssetsSubtitle>
             </Box>
-          ))}
-          <Box
-            width={1}
-            pt={5}
-          >
-            <Button
-              genre="brand"
-              size="m"
-              block
+            <Box
+              width={1 / 2}
+              pb={3}
             >
-              Swap
-            </Button>
-          </Box>
-        </>
-      )}
-    </Flex>
+              <Flex
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <EstimateLabel>
+                  Estimated value
+                </EstimateLabel>
+                <DaiLogo src={Dai} alt="Dai logo" />
+                <EstimateAmountLabel>
+                  {`${offer.estimateAmount} DAI`}
+                </EstimateAmountLabel>
+              </Flex>
+            </Box>
+            {offer.offerAssets.map((asset) => (
+              <Box
+                width={1 / 2}
+                pb={2}
+                key={`${asset.contract.address}/${asset.tokenId}`}
+              >
+                <NftCard
+                  imageUrl={asset.imageUrl}
+                  assetName={asset.name}
+                  contractName={asset.contract.name}
+                  isSelected={false}
+                  onClick={() => {}}
+                />
+              </Box>
+            ))}
+            <Box
+              width={1}
+              pt={5}
+            >
+              <Button
+                genre="brand"
+                size="m"
+                onClick={() => toggle(!isModalOpen)}
+                block
+              >
+                Swap
+              </Button>
+            </Box>
+          </>
+        )}
+      </Flex>
+    </>
   );
 }
 

@@ -11,8 +11,10 @@ import Subtitle from './subtitle';
 import Input from './input';
 import NftCard from './nftCard';
 import Link from './link';
+import Modal from './modal';
 
 export {
+  Modal,
   Button,
   Dropdown,
   Navbar,
