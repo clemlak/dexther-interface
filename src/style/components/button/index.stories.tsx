@@ -29,6 +29,12 @@ export const PrimaryLarge = () => (
   </Button>
 );
 
+export const PrimarySmall = () => (
+  <Button genre="primary" size="s">
+    Log In
+  </Button>
+);
+
 export const PrimaryBlock = () => (
   <Button genre="primary" size="m" block>
     Log In

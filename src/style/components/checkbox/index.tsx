@@ -18,7 +18,7 @@ const pop = () => keyframes`
 `;
 
 const Label = styled.label`
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.primary};
   font-family: ${(props) => props.theme.font.family};
   font-size: ${(props) => props.theme.font.size.small};
   cursor: pointer;
@@ -36,8 +36,8 @@ const Checkbox = styled.input.attrs({
   vertical-align: bottom;
 
   margin: 0px 6px;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 4px;
 
   background: none;
@@ -45,10 +45,10 @@ const Checkbox = styled.input.attrs({
   border-style: ${(props) => props.theme.border.style};
   border-color: ${(props) => props.theme.colors.secondary};
 
-  transition: all 300ms;
+  transition: all 200ms;
 
   &:checked {
-    transition: all 300ms;
+    transition: all 200ms;
 
     &:after {
       animation-name: ${() => pop()};
@@ -58,9 +58,9 @@ const Checkbox = styled.input.attrs({
       animation-delay: 0;
 
       content: ' ';
-      background-color: ${(props) => props.theme.colors.primary};
-      width: 10px;
-      height: 10px;
+      background-color: ${(props) => props.theme.colors.secondary};
+      width: 12px;
+      height: 12px;
       border-radius: 4px;
     }
 
@@ -74,9 +74,9 @@ const Checkbox = styled.input.attrs({
   }
 
   &:hover {
-    transition: all 300ms;
+    transition: all 200ms;
     cursor: pointer;
-    border-color: ${(props) => props.theme.colors.primary};
+    border-color: ${(props) => props.theme.colors.light};
   }
 `;
 

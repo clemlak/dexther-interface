@@ -25,27 +25,27 @@ function getGenre(theme: DefaultTheme, genre: string) {
   switch (genre) {
     case 'primary':
       return {
-        color: theme.colors.primary,
-        borderColor: theme.colors.primary,
-        backgroundColor: 'transparent',
+        color: theme.colors.background,
+        borderColor: 'transparent',
+        backgroundColor: theme.colors.primary,
       };
     case 'inverted':
       return {
-        color: theme.colors.inverted,
+        color: theme.colors.primary,
         borderColor: theme.colors.primary,
-        backgroundColor: theme.colors.primary,
+        backgroundColor: 'transparent',
       };
     case 'brand':
       return {
         color: theme.colors.primary,
-        borderColor: theme.colors.brand,
+        borderColor: 'transparent',
         backgroundColor: theme.colors.brand,
       };
     default:
       return {
-        color: theme.colors.primary,
+        color: theme.colors.inverted,
         borderColor: theme.colors.primary,
-        backgroundColor: 'transparent',
+        backgroundColor: theme.colors.primary,
       };
   }
 }
@@ -55,17 +55,22 @@ function getSize(theme: DefaultTheme, size: string) {
     case 'l':
       return {
         fontSize: '20px',
-        padding: '20px 32px',
+        padding: '12px 36px',
       };
     case 'm':
       return {
         fontSize: theme.font.size.regular,
-        padding: '12px 24px',
+        padding: '8px 32px',
+      };
+    case 's':
+      return {
+        fontSize: theme.font.size.small,
+        padding: '8px 32px',
       };
     default:
       return {
         fontSize: theme.font.size.regular,
-        padding: '12px 24px',
+        padding: '8px 32px',
       };
   }
 }
