@@ -46,11 +46,15 @@ const AssetsSubtitle = styled(Subtitle)`
   font-size: 16px;
 `;
 
+interface ParamsInterface {
+  id: string;
+}
+
 function OfferView() {
   const web3Context = useContext(Web3Context);
   const {
     id,
-  } = useParams();
+  } = useParams<ParamsInterface>();
 
   const {
     state,

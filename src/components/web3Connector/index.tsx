@@ -110,7 +110,7 @@ function Web3Connector() {
     }
 
     isConnected();
-  }, [saveConnect]);
+  }, []);
 
   async function connect() {
     setIsLoading(true);

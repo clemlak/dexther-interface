@@ -109,7 +109,7 @@ function OfferCard(props: OfferCardInterface) {
           pb="20px"
         >
           {offerAssets.map((asset) => (
-            <Tag genre="default">
+            <Tag genre="default" key={asset.contract.address}>
               {asset.contract.name}
             </Tag>
           ))}

@@ -65,6 +65,7 @@ function Home() {
         <>
           {offers.map((offer) => (
             <Box
+              key={offer.offerId}
               width={[1, 1 / 2]}
               p="10px"
             >
