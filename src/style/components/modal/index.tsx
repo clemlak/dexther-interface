@@ -106,6 +106,7 @@ function Modal(props: ModalInterface) {
             pb={0}
           >
             <CloseIcon
+              onClick={() => toggle()}
               className="w-6 h-6"
               fill="none"
               stroke="currentColor"
