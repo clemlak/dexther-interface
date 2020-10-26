@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 interface CardInterface {
   isSelected: boolean;
+  isSelectable: boolean;
 }
 
 const Card = styled.div<CardInterface>`
@@ -17,7 +18,7 @@ const Card = styled.div<CardInterface>`
 
   &:hover {
     cursor: pointer;
-    opacity: 0.8;
+    opacity: ${(props) => (props.isSelectable && '0.8')};
   }
 `;
 
@@ -65,6 +66,7 @@ interface NftCardInterface {
   contractName: string;
   isSelected: boolean;
   onClick: Function;
+  isSelectable?: boolean;
 }
 
 function NftCard(props: NftCardInterface) {
@@ -74,12 +76,14 @@ function NftCard(props: NftCardInterface) {
     contractName,
     isSelected,
     onClick,
+    isSelectable = false,
   } = props;
 
   return (
     <Card
       isSelected={isSelected}
       onClick={() => onClick()}
+      isSelectable={isSelectable}
     >
       {isSelected && (
         <CheckCircleWrapper>

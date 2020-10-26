@@ -62,6 +62,8 @@ function Create() {
   const [estimateValue, setEstimateValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [loadingMessage, setLoadingMessage] = useState<string>('');
+
   useEffect(() => {
     async function doGetUserAssets() {
       try {
@@ -130,6 +132,9 @@ function Create() {
         <Subtitle>
           Your assets
         </Subtitle>
+        <Text>
+          Select all the assets that you want to include in your offer. Users will be able to swap them.
+        </Text>
       </Box>
       {assets.length > 0 ? assets.map((asset: Asset, index: number) => (
         <Box
@@ -142,6 +147,7 @@ function Create() {
             assetName={asset.name}
             contractName={asset.contract.name}
             isSelected={selectedAssets.includes(index)}
+            isSelectable
             onClick={() => {
               if (selectedAssets.includes(index)) {
                 const newSelectedAssets = selectedAssets.filter((value) => value !== index);
@@ -165,7 +171,9 @@ function Create() {
         <Subtitle>
           Estimated value
         </Subtitle>
-        <Text>This is how you estimate the value of your assets. People wanting to swap your assets will have to deposit this amount as a collateral.</Text>
+        <Text>
+          This is how you estimate the value of your assets. People wanting to swap your assets will have to deposit this amount as a collateral.
+        </Text>
       </Box>
       <Box
         width={[1 / 2]}
@@ -193,10 +201,10 @@ function Create() {
       </Box>
       <Box
         width={1}
-        pt="2rem"
+        pt="5rem"
       >
         <Button
-          genre="primary"
+          genre="brand"
           size="m"
           block
           disabled={selectedAssets.length === 0 || estimateValue === ''}
@@ -210,24 +218,25 @@ function Create() {
               const offerTokensValues: string[] = [];
 
               for (let i = 0; i < selectedAssets.length; i += 1) {
+                setLoadingMessage('Checking approval...');
+
                 const index: number = selectedAssets[i];
                 const asset = assets[index];
-                console.log(asset.contract.address);
 
                 const isApproved = await isApprovedForAllErc721(
                   provider as providers.Web3Provider,
                   asset.contract.address,
                   address,
-                  config.contracts.dexther[4],
+                  config.contracts.dexther[chainId],
                 );
 
-                console.log(isApproved);
-
                 if (!isApproved) {
+                  setLoadingMessage('Waiting for approval...');
+
                   const receipt = await setApprovalForAllErc721(
                     provider as providers.Web3Provider,
                     asset.contract.address,
-                    config.contracts.dexther[4],
+                    config.contracts.dexther[chainId],
                   );
 
                   console.log(receipt);
@@ -238,11 +247,13 @@ function Create() {
                 offerTokensValues.push('1');
               }
 
+              setLoadingMessage('Waiting for confirmation...');
+
               const receipt = await createOffer(
                 provider as providers.Web3Provider,
                 '4',
                 utils.parseEther(estimateValue),
-                '0x57780c1d69F40a459f1a227aed2BD9cA4850eF5B',
+                config.contracts.dexther[chainId],
                 offerTokensAddresses,
                 offerTokensIds,
                 offerTokensValues,
@@ -258,7 +269,15 @@ function Create() {
             }
           }}
         >
-          Create offer
+          {isLoading ? (
+            <>
+              {loadingMessage}
+            </>
+          ) : (
+            <>
+              Create offer
+            </>
+          )}
         </Button>
       </Box>
     </Flex>

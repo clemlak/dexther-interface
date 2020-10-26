@@ -30,6 +30,8 @@ import {
   Button,
 } from '../../style/components';
 
+import Dai from '../../assets/icons/dai.png';
+
 const OfferTitle = styled(Title)`
   margin: 0;
   font-size: 28px;
@@ -39,11 +41,34 @@ const OfferTitle = styled(Title)`
 const OfferTag = styled(Tag)`
   margin-left: 20px;
   vertical-align: text-bottom;
+  display: inline-block;
 `;
 
 const AssetsSubtitle = styled(Subtitle)`
   display: inline;
   font-size: 16px;
+`;
+
+const DaiLogo = styled.img`
+  height: 28px;
+  margin-right: 10px;
+  margin-left: 10px;
+`;
+
+const EstimateAmountLabel = styled.span`
+  font-family: ${(props) => props.theme.font.family}, sans-serif;
+  font-weight: ${(props) => props.theme.font.weight.medium};
+  font-size: ${(props) => props.theme.font.size.regular};
+  color: ${(props) => props.theme.colors.primary};
+  margin: 0;
+`;
+
+const EstimateLabel = styled.span`
+  font-family: ${(props) => props.theme.font.family}, sans-serif;
+  font-weight: ${(props) => props.theme.font.weight.regular};
+  font-size: ${(props) => props.theme.font.size.regular};
+  color: ${(props) => props.theme.colors.secondary};
+  margin: 0;
 `;
 
 interface ParamsInterface {
@@ -102,7 +127,7 @@ function OfferView() {
       ) : (
         <>
           <Box
-            width={1}
+            width={1 / 2}
             pb={3}
           >
             <OfferTitle>
@@ -111,6 +136,18 @@ function OfferView() {
                 {getStatus(offer.status)}
               </OfferTag>
             </OfferTitle>
+          </Box>
+          <Box
+            width={1 / 2}
+            textAlign="right"
+            pb={3}
+          >
+            <Button
+              genre="brand"
+              size="s"
+            >
+              Swap
+            </Button>
           </Box>
 
           <Box
@@ -129,17 +166,23 @@ function OfferView() {
               )}
             </AssetsSubtitle>
           </Box>
+
           <Box
             width={1 / 2}
-            textAlign="right"
             pb={3}
           >
-            <Button
-              genre="brand"
-              size="s"
+            <Flex
+              alignItems="center"
+              justifyContent="flex-end"
             >
-              Swap
-            </Button>
+              <EstimateLabel>
+                Estimated value
+              </EstimateLabel>
+              <DaiLogo src={Dai} alt="Dai logo" />
+              <EstimateAmountLabel>
+                {`${offer.estimateAmount} DAI`}
+              </EstimateAmountLabel>
+            </Flex>
           </Box>
 
           {offer.offerAssets.map((asset) => (

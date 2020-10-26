@@ -3,9 +3,6 @@ import {
   Flex,
   Box,
 } from 'reflexbox/styled-components';
-import {
-  BigNumber,
-} from 'ethers';
 
 import {
   Meta,
