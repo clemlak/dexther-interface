@@ -28,7 +28,7 @@ function getGenre(theme: DefaultTheme, genre: string) {
   }
 }
 
-const Tag = styled.button<TagInterface>`
+const Tag = styled.div<TagInterface>`
   font-family: ${(props) => props.theme.font.family}, sans-serif;
   font-size: ${(props) => props.theme.font.size.small};
   font-weight: ${(props) => (props.bold ? props.theme.font.weight.bold : props.theme.font.weight.medium)};

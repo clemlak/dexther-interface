@@ -5,6 +5,7 @@ import {
   providers,
   BigNumber,
   ContractInterface,
+  utils,
 } from 'ethers';
 
 import {
@@ -83,7 +84,7 @@ async function cancelOffer(
 async function getOffer(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
-  offerId: BigNumber | string,
+  offerId: string,
 ): Promise<Offer> {
   const contract = getContract(provider, chainId);
 
@@ -99,7 +100,7 @@ async function getOffer(
 async function getOfferWithAssets(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
-  offerId: BigNumber | string,
+  offerId: string,
 ): Promise<OfferWithAssets> {
   try {
     const offer = await getOffer(provider, chainId, offerId);
@@ -128,8 +129,9 @@ async function getOfferWithAssets(
     }
 
     const offerWithAssets: OfferWithAssets = {
+      offerId,
       creator: offer.creator,
-      estimateAmount: offer.estimateAmount,
+      estimateAmount: utils.formatEther(offer.estimateAmount),
       estimateTokenAddress: offer.estimateTokenAddress,
       offerAssets,
       expectedTokens: offer.expectedTokens,
@@ -137,7 +139,7 @@ async function getOfferWithAssets(
       swapper: offer.swapper,
       swappedAt: offer.swappedAt,
       swapAssets,
-      status: offer.status,
+      status: offer.status.toString(),
     };
 
     return offerWithAssets;
@@ -162,7 +164,11 @@ async function getOffers(
     for (let i = 0; i < logs.length; i += 1) {
       if (logs[i]?.args?.offerId !== undefined) {
         const offerId = logs[i]?.args?.offerId;
-        const offer: OfferWithAssets = await getOfferWithAssets(provider, chainId, offerId);
+        const offer: OfferWithAssets = await getOfferWithAssets(
+          provider,
+          chainId,
+          offerId.toString(),
+        );
 
         offers.push(offer);
       }
@@ -175,8 +181,8 @@ async function getOffers(
   }
 }
 
-function getStatus(status: BigNumber): string {
-  switch (status.toString()) {
+function getStatus(status: string): string {
+  switch (status) {
     case '0':
       return 'Available';
     case '1':

@@ -42,9 +42,10 @@ const offerAssets: Asset[] = [
 
 export const Standard = () => (
   <OfferCard
+    offerId="0"
     estimateAmount="100"
     estimateTokenAddress="0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3"
     offerAssets={offerAssets}
-    status={BigNumber.from(0)}
+    status="0"
   />
 );

@@ -66,8 +66,9 @@ declare interface Offer {
 }
 
 declare interface OfferWithAssets {
+  offerId: string;
   creator: string;
-  estimateAmount: BigNumber;
+  estimateAmount: string;
   estimateTokenAddress: string;
   offerAssets: Asset[];
   expectedTokens: string[];
@@ -75,5 +76,5 @@ declare interface OfferWithAssets {
   swapper: string;
   swappedAt: string;
   swapAssets: Asset[];
-  status: BigNumber;
+  status: string;
 }

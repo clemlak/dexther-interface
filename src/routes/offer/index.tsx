@@ -54,14 +54,11 @@ function OfferView() {
 
   const {
     state,
-    dispatch,
   } = web3Context;
 
   const {
-    address,
     chainId,
     provider,
-    isWalletConnected,
   } = state;
 
   const [offer, setOffer] = useState<OfferWithAssets>();
@@ -145,6 +142,7 @@ function OfferView() {
             <Box
               width={1 / 2}
               pb={2}
+              key={`${asset.contract.address}/${asset.tokenId}`}
             >
               <NftCard
                 imageUrl={asset.imageUrl}

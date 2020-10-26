@@ -104,7 +104,7 @@ function NFTPreview(props: NFTPreviewnterface) {
           {contractName}
         </Tag>
       </TopOverlay>
-      {isCarousel && (
+      {isCarousel === true && (
         <>
           <LeftOverlay>
             <CarouselButton onClick={() => carouselLeftCallback()}>

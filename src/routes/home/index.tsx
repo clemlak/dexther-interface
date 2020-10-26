@@ -69,7 +69,8 @@ function Home() {
               p="10px"
             >
               <OfferCard
-                estimateAmount={utils.formatEther(offer.estimateAmount)}
+                offerId={offer.offerId}
+                estimateAmount={offer.estimateAmount}
                 estimateTokenAddress={offer.estimateTokenAddress}
                 offerAssets={offer.offerAssets}
                 status={offer.status}

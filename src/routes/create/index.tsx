@@ -25,7 +25,6 @@ import {
   Subtitle,
   Input,
   NftCard,
-  Dropdown,
   Button,
 } from '../../style/components';
 
@@ -49,7 +48,6 @@ function Create() {
 
   const {
     state,
-    dispatch,
   } = web3Context;
 
   const {

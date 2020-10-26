@@ -1,14 +1,14 @@
 import React, {
   useState,
 } from 'react';
+import {
+  Link,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Box,
   Flex,
 } from 'reflexbox';
-import {
-  BigNumber,
-} from 'ethers';
 
 import NftPreview from '../nftPreview';
 import Tag from '../tag';
@@ -19,6 +19,10 @@ import {
 
 import Dai from '../../../assets/icons/dai.png';
 
+const WrapperLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const OfferWrapper = styled.div`
   box-sizing: border-box;
   border: none;
@@ -26,6 +30,11 @@ const OfferWrapper = styled.div`
   width: 100%;
   padding: 30px;
   background-color: ${(props) => (props.theme.colors.light)};
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 `;
 
 const AssetsLabel = styled.p`
@@ -50,14 +59,16 @@ const DaiLogo = styled.img`
 `;
 
 interface OfferCardInterface {
+  offerId: string;
   estimateAmount: string;
   estimateTokenAddress: string;
   offerAssets: Asset[];
-  status: BigNumber;
+  status: string;
 }
 
 function OfferCard(props: OfferCardInterface) {
   const {
+    offerId,
     estimateAmount,
     estimateTokenAddress,
     offerAssets,
@@ -67,62 +78,72 @@ function OfferCard(props: OfferCardInterface) {
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
 
   return (
-    <OfferWrapper>
-      <Box pb="20px">
-        <NftPreview
-          imageUrl={offerAssets[carouselIndex].imageUrl}
-          assetName={offerAssets[carouselIndex].name}
-          contractName={offerAssets[carouselIndex].contract.name}
-          carouselLeftCallback={() => {
-            if (carouselIndex - 1 < 0) {
-              setCarouselIndex(offerAssets.length - 1);
-            } else {
-              setCarouselIndex(carouselIndex - 1);
-            }
-          }}
-          carouselRightCallback={() => {
-            if (carouselIndex + 1 === offerAssets.length) {
-              setCarouselIndex(0);
-            } else {
-              setCarouselIndex(carouselIndex + 1);
-            }
-          }}
-          isCarousel={offerAssets.length > 0}
-        />
-      </Box>
-      <Flex
-        flexWrap="wrap"
-        justifyContent="space-between"
-        alignItems="center"
-        pb="20px"
-      >
-        {offerAssets.map((asset) => (
-          <Tag genre="default">
-            {asset.contract.name}
-          </Tag>
-        ))}
-      </Flex>
-      <Flex
-        flexWrap="wrap"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+    <WrapperLink to={`/offer/${offerId}`}>
+      <OfferWrapper>
+        <Box pb="20px">
+          <NftPreview
+            imageUrl={offerAssets[carouselIndex].imageUrl}
+            assetName={offerAssets[carouselIndex].name}
+            contractName={offerAssets[carouselIndex].contract.name}
+            carouselLeftCallback={() => {
+              if (carouselIndex - 1 < 0) {
+                setCarouselIndex(offerAssets.length - 1);
+              } else {
+                setCarouselIndex(carouselIndex - 1);
+              }
+            }}
+            carouselRightCallback={() => {
+              if (carouselIndex + 1 === offerAssets.length) {
+                setCarouselIndex(0);
+              } else {
+                setCarouselIndex(carouselIndex + 1);
+              }
+            }}
+            isCarousel={offerAssets.length > 1}
+          />
+        </Box>
         <Flex
+          flexWrap="wrap"
+          justifyContent="space-between"
+          alignItems="center"
+          pb="20px"
+        >
+          {offerAssets.map((asset) => (
+            <Tag genre="default">
+              {asset.contract.name}
+            </Tag>
+          ))}
+        </Flex>
+        <Flex
+          flexWrap="wrap"
+          justifyContent="space-between"
           alignItems="center"
         >
-          <DaiLogo src={Dai} alt="Dai logo" />
-          <EstimateAmountLabel>
-            {`${estimateAmount} DAI`}
-          </EstimateAmountLabel>
+          <Flex
+            alignItems="center"
+          >
+            <DaiLogo src={Dai} alt="Dai logo" />
+            <EstimateAmountLabel>
+              {`${estimateAmount} DAI`}
+            </EstimateAmountLabel>
+          </Flex>
+          <AssetsLabel>
+            {offerAssets.length === 1 ? (
+              <>
+                {`${offerAssets.length} asset`}
+              </>
+            ) : (
+              <>
+                {`${offerAssets.length} assets`}
+              </>
+            )}
+          </AssetsLabel>
+          <Tag genre="default">
+            {getStatus(status)}
+          </Tag>
         </Flex>
-        <AssetsLabel>
-          {`${offerAssets.length} assets`}
-        </AssetsLabel>
-        <Tag genre="default">
-          {getStatus(status)}
-        </Tag>
-      </Flex>
-    </OfferWrapper>
+      </OfferWrapper>
+    </WrapperLink>
   );
 }
 

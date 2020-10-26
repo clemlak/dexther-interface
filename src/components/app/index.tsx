@@ -8,7 +8,6 @@ import {
   ThemeProvider,
 } from 'styled-components';
 
-import lightTheme from '../../style/lightTheme';
 import darkTheme from '../../style/darkTheme';
 import GlobalStyle from '../../style/globalStyle';
 
