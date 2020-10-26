@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     -webkit-font-smoothing: antialiased;
     font-family: 'Commissioner', sans-serif;
+    background-color: ${(props) => props.theme.colors.background};
   }
 `;
 

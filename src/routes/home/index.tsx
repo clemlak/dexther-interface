@@ -20,10 +20,6 @@ import {
 } from '../../utils/dexther';
 
 import {
-  getAsset,
-} from '../../utils/tokenUtils';
-
-import {
   OfferCard,
   Text,
 } from '../../style/components';
@@ -42,14 +38,13 @@ function Home() {
     isWalletConnected,
   } = state;
 
-  const [offers, setOffers] = useState<Offer[]>([]);
+  const [offers, setOffers] = useState<OfferWithAssets[]>([]);
 
   useEffect(() => {
     async function getCurrentOffers() {
       try {
         const res = await getOffers(provider, '4');
         console.log(res);
-
         setOffers(res);
       } catch (e) {
         console.log(e);
@@ -73,15 +68,12 @@ function Home() {
               width={[1, 1 / 2]}
               p="10px"
             >
-              {/*
               <OfferCard
-                offerId="0"
                 estimateAmount={utils.formatEther(offer.estimateAmount)}
                 estimateTokenAddress={offer.estimateTokenAddress}
-                offerTokens={[]}
+                offerAssets={offer.offerAssets}
                 status={offer.status}
               />
-              */}
             </Box>
           ))}
         </>

@@ -26,6 +26,7 @@ export default {
   )],
 } as Meta;
 
+/*
 const offerTokens: Nft[] = [
   {
     address: '0x58b17A2C86dA4Bd820DEAEaD3784Ca0AB61F0dA3',
@@ -57,3 +58,4 @@ export const Standard = () => (
     status={BigNumber.from(0)}
   />
 );
+*/

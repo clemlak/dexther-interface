@@ -8,10 +8,7 @@ import styled from 'styled-components';
 import Web3Connector from '../../../components/web3Connector';
 
 import NavLink from '../navLink';
-
-const NavbarWrapper = styled(Flex)`
-  border-bottom: ${(props) => `1px solid ${props.theme.colors.secondary}`};
-`;
+import Link from '../link';
 
 const Logo = styled.h1`
   color: ${(props) => props.theme.colors.primary};
@@ -23,23 +20,23 @@ const Logo = styled.h1`
 
 function Navbar() {
   return (
-    <NavbarWrapper
+    <Flex
       py="10px"
       px="40px"
       paddingBottom="20px"
       alignItems="center"
     >
-      <Logo>
-        Dexther
-      </Logo>
+      <NavLink margin="0" to="/">
+        <Logo>
+          Dexther
+        </Logo>
+      </NavLink>
       <Box mx="auto" />
       <NavLink to="/">Offers</NavLink>
-      <NavLink to="/">How it works</NavLink>
-      <NavLink to="/">Help</NavLink>
-      <Box mx="auto" />
-      <NavLink to="/create">Create an offer</NavLink>
+      <Link href="https://notion.co" target="_blank" rel="noreferrer noopener">FAQs</Link>
+      <NavLink margin="0 20px 0 10px" to="/create">Create an offer</NavLink>
       <Web3Connector />
-    </NavbarWrapper>
+    </Flex>
   );
 }
 

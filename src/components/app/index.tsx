@@ -9,6 +9,7 @@ import {
 } from 'styled-components';
 
 import lightTheme from '../../style/lightTheme';
+import darkTheme from '../../style/darkTheme';
 import GlobalStyle from '../../style/globalStyle';
 
 import {
@@ -20,12 +21,13 @@ import Footer from '../footer';
 
 import Home from '../../routes/home';
 import Create from '../../routes/create';
+import OfferView from '../../routes/offer';
 
 function App() {
   return (
     <BrowserRouter>
       <>
-        <ThemeProvider theme={lightTheme}>
+        <ThemeProvider theme={darkTheme}>
           <>
             <Web3ContextProvider>
               <GlobalStyle />
@@ -33,6 +35,7 @@ function App() {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/create" exact component={Create} />
+                <Route path="/offer/:id" component={OfferView} />
               </Switch>
               <Footer />
             </Web3ContextProvider>

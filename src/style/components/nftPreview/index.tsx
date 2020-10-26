@@ -41,15 +41,16 @@ const Thumbnail = styled.img`
   display: block;
   width: 100%;
   height: auto;
+  border-radius: ${(props) => props.theme.border.radius};
 `;
 
 const CarouselButton = styled.button`
   font-family: ${(props) => props.theme.font.family}, sans-serif;
   font-size: ${(props) => props.theme.font.size.small};
   font-weight: ${(props) => props.theme.font.weight.medium};
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.background};
 
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => props.theme.colors.primary};
 
   padding: 10px;
 
@@ -99,7 +100,7 @@ function NFTPreview(props: NFTPreviewnterface) {
     <NFTWrapper>
       <Thumbnail src={imageUrl} alt={assetName} />
       <TopOverlay>
-        <Tag genre="inverted" bold>
+        <Tag genre="default" opacity={0.8}>
           {contractName}
         </Tag>
       </TopOverlay>
@@ -118,7 +119,7 @@ function NFTPreview(props: NFTPreviewnterface) {
         </>
       )}
       <BottomOverlay>
-        <Tag genre="inverted">
+        <Tag genre="default" opacity={0.8} bold>
           {assetName}
         </Tag>
       </BottomOverlay>

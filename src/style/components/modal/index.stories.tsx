@@ -18,7 +18,7 @@ export const Default = () => (
     toggle={() => console.log('toggle')}
     title="This is a modal"
   >
-    <Text>
+    <Text margin="0">
       Lorem ipsum and bidum satum.
     </Text>
   </Modal>
@@ -30,7 +30,7 @@ export const Closed = () => (
     toggle={() => console.log('toggle')}
     title="This is a modal"
   >
-    <Text>
+    <Text margin="0">
       Lorem ipsum and bidum satum.
     </Text>
   </Modal>

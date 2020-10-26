@@ -39,7 +39,7 @@ const Content = styled.div`
   background-color: ${(props) => props.theme.colors.background};
   max-width: 60vh;
   width: 100%;
-  border-radius: 15px;
+  border-radius: ${(props) => props.theme.border.radius};
   z-index: 100;
 `;
 
@@ -56,6 +56,8 @@ const CloseBox = styled(Box)`
 
 const CloseIcon = styled.svg`
   cursor: pointer;
+  height: 26px;
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 function Modal(props: ModalInterface) {
@@ -92,6 +94,7 @@ function Modal(props: ModalInterface) {
           <Box
             width={1 / 2}
             p={3}
+            pb={0}
           >
             <Title>
               {title}
@@ -100,10 +103,9 @@ function Modal(props: ModalInterface) {
           <CloseBox
             width={1 / 2}
             p={3}
+            pb={0}
           >
             <CloseIcon
-              height="20px"
-              color="#000000"
               className="w-6 h-6"
               fill="none"
               stroke="currentColor"
@@ -114,7 +116,8 @@ function Modal(props: ModalInterface) {
             </CloseIcon>
           </CloseBox>
           <Box
-            p={3}
+            px={3}
+            py={4}
             width={1}
           >
             {children}

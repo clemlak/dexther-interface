@@ -16,25 +16,6 @@ import config from './config';
 
 const dextherAbi = dextherAbiJson as ContractInterface;
 
-declare global {
-  interface Offer {
-    creator: string;
-    estimateAmount: BigNumber;
-    estimateTokenAddress: string;
-    offerTokensAddresses: string[];
-    offerTokensIds: BigNumber[];
-    offerTokensValues: BigNumber[];
-    expectedTokens: string[];
-    restrictedTo: string;
-    swapper: string;
-    swappedAt: string;
-    swapTokensAddresses: string[];
-    swapTokensIds: BigNumber[];
-    swapTokensValues: BigNumber[];
-    status: BigNumber;
-  }
-}
-
 function getContract(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
@@ -102,8 +83,8 @@ async function cancelOffer(
 async function getOffer(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
-  offerId: BigNumber,
-) {
+  offerId: BigNumber | string,
+): Promise<Offer> {
   const contract = getContract(provider, chainId);
 
   try {
@@ -115,35 +96,73 @@ async function getOffer(
   }
 }
 
+async function getOfferWithAssets(
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
+  chainId: string,
+  offerId: BigNumber | string,
+): Promise<OfferWithAssets> {
+  try {
+    const offer = await getOffer(provider, chainId, offerId);
+
+    const offerAssets: Asset[] = [];
+    const swapAssets: Asset[] = [];
+
+    for (let i = 0; i < offer.offerTokensAddresses.length; i += 1) {
+      const asset = await getAsset(
+        provider,
+        offer.offerTokensAddresses[i],
+        offer.offerTokensIds[i],
+      );
+
+      offerAssets.push(asset);
+    }
+
+    for (let i = 0; i < offer.swapTokensAddresses.length; i += 1) {
+      const asset = await getAsset(
+        provider,
+        offer.swapTokensAddresses[i],
+        offer.swapTokensIds[i],
+      );
+
+      swapAssets.push(asset);
+    }
+
+    const offerWithAssets: OfferWithAssets = {
+      creator: offer.creator,
+      estimateAmount: offer.estimateAmount,
+      estimateTokenAddress: offer.estimateTokenAddress,
+      offerAssets,
+      expectedTokens: offer.expectedTokens,
+      restrictedTo: offer.restrictedTo,
+      swapper: offer.swapper,
+      swappedAt: offer.swappedAt,
+      swapAssets,
+      status: offer.status,
+    };
+
+    return offerWithAssets;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot get offer with assets');
+  }
+}
+
 async function getOffers(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   chainId: string,
-) {
+): Promise<OfferWithAssets[]> {
   const contract = getContract(provider, chainId);
 
   try {
     const filter = contract.filters.Created();
     const logs = await contract.queryFilter(filter);
 
-    const offers: Offer[] = [];
+    const offers: OfferWithAssets[] = [];
 
     for (let i = 0; i < logs.length; i += 1) {
       if (logs[i]?.args?.offerId !== undefined) {
         const offerId = logs[i]?.args?.offerId;
-
-        const offer: Offer = await getOffer(provider, chainId, offerId);
-
-        console.log(offer);
-
-        for (let j = 0; j < offer.offerTokensAddresses.length; j += 1) {
-          const asset = await getAsset(
-            provider,
-            offer.offerTokensAddresses[j],
-            offer.offerTokensIds[j],
-          );
-
-          console.log(asset);
-        }
+        const offer: OfferWithAssets = await getOfferWithAssets(provider, chainId, offerId);
 
         offers.push(offer);
       }
@@ -156,8 +175,25 @@ async function getOffers(
   }
 }
 
+function getStatus(status: BigNumber): string {
+  switch (status.toString()) {
+    case '0':
+      return 'Available';
+    case '1':
+      return 'Swapped';
+    case '2':
+      return 'Finalized';
+    case '3':
+      return 'Canceled';
+    default:
+      return 'Wrong status';
+  }
+}
+
 export {
   createOffer,
   cancelOffer,
   getOffers,
+  getOfferWithAssets,
+  getStatus,
 };

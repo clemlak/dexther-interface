@@ -47,3 +47,33 @@ declare interface Asset {
   tokenId: string;
   imageUrl: string;
 }
+
+declare interface Offer {
+  creator: string;
+  estimateAmount: BigNumber;
+  estimateTokenAddress: string;
+  offerTokensAddresses: string[];
+  offerTokensIds: BigNumber[];
+  offerTokensValues: BigNumber[];
+  expectedTokens: string[];
+  restrictedTo: string;
+  swapper: string;
+  swappedAt: string;
+  swapTokensAddresses: string[];
+  swapTokensIds: BigNumber[];
+  swapTokensValues: BigNumber[];
+  status: BigNumber;
+}
+
+declare interface OfferWithAssets {
+  creator: string;
+  estimateAmount: BigNumber;
+  estimateTokenAddress: string;
+  offerAssets: Asset[];
+  expectedTokens: string[];
+  restrictedTo: string;
+  swapper: string;
+  swappedAt: string;
+  swapAssets: Asset[];
+  status: BigNumber;
+}

@@ -13,6 +13,10 @@ import {
 import NftPreview from '../nftPreview';
 import Tag from '../tag';
 
+import {
+  getStatus,
+} from '../../../utils/dexther';
+
 const OfferWrapper = styled.div`
   box-sizing: border-box;
 
@@ -43,31 +47,18 @@ const EstimateAmountLabel = styled.p`
   margin: 0;
 `;
 
-declare global {
-  interface Nft {
-    address: string;
-    id: string;
-    value: string;
-    contractName: string;
-    name: string;
-    imageUrl: string;
-  }
-}
-
 interface OfferCardInterface {
-  offerId: string;
   estimateAmount: string;
   estimateTokenAddress: string;
-  offerTokens: Nft[];
+  offerAssets: Asset[];
   status: BigNumber;
 }
 
 function OfferCard(props: OfferCardInterface) {
   const {
-    offerId,
     estimateAmount,
     estimateTokenAddress,
-    offerTokens,
+    offerAssets,
     status,
   } = props;
 
@@ -82,36 +73,38 @@ function OfferCard(props: OfferCardInterface) {
           width={1 / 2}
           pb="20px"
         >
-          {offerId}
+          Offer
         </Box>
         <Box
           width={1 / 2}
           pb="20px"
         >
-          {status}
+          <Tag genre="default">
+            {getStatus(status)}
+          </Tag>
         </Box>
       </Flex>
       <Box pb="20px">
-        {offerTokens.map((token) => (
+        {offerAssets.map((asset) => (
           <Tag genre="default">
-            {token.contractName}
+            {asset.contract.name}
           </Tag>
         ))}
       </Box>
       <Box pb="20px">
         <NftPreview
-          imageUrl={offerTokens[carouselIndex].imageUrl}
-          assetName={offerTokens[carouselIndex].name}
-          contractName={offerTokens[carouselIndex].contractName}
+          imageUrl={offerAssets[carouselIndex].imageUrl}
+          assetName={offerAssets[carouselIndex].name}
+          contractName={offerAssets[carouselIndex].contract.name}
           carouselLeftCallback={() => {
             if (carouselIndex - 1 < 0) {
-              setCarouselIndex(offerTokens.length - 1);
+              setCarouselIndex(offerAssets.length - 1);
             } else {
               setCarouselIndex(carouselIndex - 1);
             }
           }}
           carouselRightCallback={() => {
-            if (carouselIndex + 1 === offerTokens.length) {
+            if (carouselIndex + 1 === offerAssets.length) {
               setCarouselIndex(0);
             } else {
               setCarouselIndex(carouselIndex + 1);
@@ -128,7 +121,7 @@ function OfferCard(props: OfferCardInterface) {
         </Box>
         <Box width={1 / 2}>
           <AssetsLabel>
-            {`${offerTokens.length} assets`}
+            {`${offerAssets.length} assets`}
           </AssetsLabel>
         </Box>
       </Flex>

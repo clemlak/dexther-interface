@@ -3,9 +3,9 @@ import styled, {
 } from 'styled-components';
 
 interface TagInterface {
-  genre: 'default' | 'inverted';
-  clickable?: boolean;
+  genre: 'default';
   bold?: boolean;
+  opacity?: number;
 }
 
 function getGenre(theme: DefaultTheme, genre: string) {
@@ -41,23 +41,10 @@ const Tag = styled.button<TagInterface>`
   border-radius: 100px;
   border: none;
 
-  cursor: ${(props) => (props.clickable ? 'pointer' : 'default')};
-
-  opacity: 0.8;
+  opacity: ${(props) => (props.opacity ? props.opacity : '1')};
 
   &:focus {
     outline: none;
-  }
-
-  &:hover {
-    cursor: ${(props) => (props.clickable ? 'pointer' : 'default')};
-    opacity: ${(props) => (props.clickable ? '0.6' : '0.8')};
-    transition: all 300ms;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
   }
 `;
 

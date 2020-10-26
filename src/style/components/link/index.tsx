@@ -1,11 +1,10 @@
-import * as Router from 'react-router-dom';
 import styled from 'styled-components';
 
-interface NavLinkInterface {
+interface LinkInterface {
   margin?: string,
 }
 
-const NavLink = styled(Router.NavLink)<NavLinkInterface>`
+const Link = styled.a<LinkInterface>`
   font-family: ${(props) => props.theme.font.family};
   font-size: ${(props) => props.theme.font.size.regular};
   font-weight: ${(props) => props.theme.font.weight.bold};
@@ -20,4 +19,4 @@ const NavLink = styled(Router.NavLink)<NavLinkInterface>`
 
 `;
 
-export default NavLink;
+export default Link;

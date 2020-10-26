@@ -7,19 +7,17 @@ interface CardInterface {
 
 const Card = styled.div<CardInterface>`
   box-sizing: border-box;
-
-  border-radius: ${(props) => props.theme.border.radius};
-  border-width: ${(props) => props.theme.border.width};
-  border-color: ${(props) => (props.isSelected ? '#3C91E6' : props.theme.colors.secondary)};
-  border-style: ${(props) => (props.theme.border.style)};
-
+  border: none;
+  border-radius: ${(props) => (props.theme.border.radius)};
   width: 100%;
+  padding: 30px;
+  background-color: ${(props) => (props.theme.colors.light)};
 
-  padding: 30px 25px;
+  opacity: ${(props) => (props.isSelected ? '0.8' : '1')};
 
   &:hover {
     cursor: pointer;
-    border-color: ${(props) => (props.isSelected ? '#3C91E6' : props.theme.colors.primary)};
+    opacity: 0.8;
   }
 `;
 
@@ -27,12 +25,13 @@ const Thumbnail = styled.img`
   display: block;
   width: 100%;
   height: auto;
+  border-radius: ${(props) => (props.theme.border.radius)};
 `;
 
 const AssetNameLabel = styled.h3`
   font-family: ${(props) => props.theme.font.family}, sans-serif;
   font-size: ${(props) => props.theme.font.size.regular};
-  font-weight: ${(props) => props.theme.font.weight.bold};
+  font-weight: ${(props) => props.theme.font.weight.semiBold};
   color: ${(props) => props.theme.colors.primary};
   margin-block-end: 0.5em;
   text-align: center;
@@ -46,6 +45,18 @@ const ContractNameLabel = styled.h4`
   margin-block-start: 0.5em;
   margin-block-end: 0;
   text-align: center;
+`;
+
+const CheckCircleWrapper = styled.div`
+  position: relative;
+`;
+
+const CheckCircle = styled.svg`
+  height: 26px;
+  color: ${(props) => props.theme.colors.primary};
+  position: absolute;
+  top: -13px;
+  right: -13px;
 `;
 
 interface NftCardInterface {
@@ -70,6 +81,13 @@ function NftCard(props: NftCardInterface) {
       isSelected={isSelected}
       onClick={() => onClick()}
     >
+      {isSelected && (
+        <CheckCircleWrapper>
+          <CheckCircle className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </CheckCircle>
+        </CheckCircleWrapper>
+      )}
       <Thumbnail src={imageUrl} alt={assetName} />
       <AssetNameLabel>
         {assetName}

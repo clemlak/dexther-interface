@@ -5,6 +5,8 @@ import {
 } from 'styled-components';
 
 import lightTheme from '../src/style/lightTheme';
+import darkTheme from '../src/style/darkTheme';
+import GlobalStyle from '../src/style/globalStyle';
 
 import {
   Web3ContextProvider,
@@ -12,7 +14,8 @@ import {
 
 export const decorators = [
   (Story) => (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
+      <GlobalStyle />
       <Web3ContextProvider>
         <Story />
       </Web3ContextProvider>

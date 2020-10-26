@@ -160,7 +160,7 @@ async function getAsset(
   provider: providers.Web3Provider | providers.JsonRpcProvider,
   tokenAddress: string,
   tokenId: BigNumber,
-) {
+): Promise<Asset> {
   try {
     const contract = new Contract(tokenAddress, erc721Abi, provider);
     const name = await contract.name();

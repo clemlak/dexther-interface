@@ -42,7 +42,7 @@ export const Selected = () => (
     imageUrl="https://lh3.googleusercontent.com/SVU6AZUVgf8ZULxtUfbLPDarNzWXOWyPMRMO-R8rkrZV0CIcKKaEXGVcoYqIfePYKAKhDE1ejgNoLZX7f4z6N8oF"
     contractName="ZLOTO"
     assetName="ZEGAR1"
-    isSelected={isSelected}
+    isSelected
     onClick={() => {
       console.log('Clicked');
       isSelected = !isSelected;
