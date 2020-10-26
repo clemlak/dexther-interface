@@ -251,9 +251,9 @@ function Create() {
 
               const receipt = await createOffer(
                 provider as providers.Web3Provider,
-                '4',
-                utils.parseEther(estimateValue),
                 config.contracts.dexther[chainId],
+                utils.parseEther(estimateValue),
+                '0xB28849468853301EBdf57a995d30867DBf803F94',
                 offerTokensAddresses,
                 offerTokensIds,
                 offerTokensValues,

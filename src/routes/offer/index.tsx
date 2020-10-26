@@ -127,7 +127,7 @@ function OfferView() {
       ) : (
         <>
           <Box
-            width={1 / 2}
+            width={1}
             pb={3}
           >
             <OfferTitle>
@@ -137,19 +137,6 @@ function OfferView() {
               </OfferTag>
             </OfferTitle>
           </Box>
-          <Box
-            width={1 / 2}
-            textAlign="right"
-            pb={3}
-          >
-            <Button
-              genre="brand"
-              size="s"
-            >
-              Swap
-            </Button>
-          </Box>
-
           <Box
             width={1 / 2}
             pb={3}
@@ -166,7 +153,6 @@ function OfferView() {
               )}
             </AssetsSubtitle>
           </Box>
-
           <Box
             width={1 / 2}
             pb={3}
@@ -184,7 +170,6 @@ function OfferView() {
               </EstimateAmountLabel>
             </Flex>
           </Box>
-
           {offer.offerAssets.map((asset) => (
             <Box
               width={1 / 2}
@@ -200,6 +185,18 @@ function OfferView() {
               />
             </Box>
           ))}
+          <Box
+            width={1}
+            pt={5}
+          >
+            <Button
+              genre="brand"
+              size="m"
+              block
+            >
+              Swap
+            </Button>
+          </Box>
         </>
       )}
     </Flex>

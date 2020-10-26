@@ -17,7 +17,7 @@ const Card = styled.div<CardInterface>`
   opacity: ${(props) => (props.isSelected ? '0.8' : '1')};
 
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.isSelectable ? 'pointer' : 'default')};
     opacity: ${(props) => (props.isSelectable && '0.8')};
   }
 `;
