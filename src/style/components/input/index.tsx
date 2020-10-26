@@ -11,12 +11,10 @@ const Input = styled.input<InputInterface>`
 
   color: ${(props) => props.theme.colors.primary};
 
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => props.theme.colors.light};
 
-  border-color: ${(props) => props.theme.colors.primary};
   border-radius: ${(props) => props.theme.border.radius};
-  border-style: ${(props) => props.theme.border.style};
-  border-width: ${(props) => props.theme.border.width};
+  border: none;
 
   padding: 12px 24px;
 
