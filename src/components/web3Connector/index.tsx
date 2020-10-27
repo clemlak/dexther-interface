@@ -13,8 +13,8 @@ import {
 } from '../../store/web3ContextProvider';
 import {
   Button,
+  Modal,
 } from '../../style/components';
-
 
 function Web3Connector() {
   const web3Context = useContext(Web3Context);
@@ -26,30 +26,10 @@ function Web3Connector() {
 
   const {
     address,
-    chainId,
-    provider,
     isWalletConnected,
   } = state;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const balance = await provider?.getBalance(address);
-
-        if (balance) {
-          console.log(utils.formatEther(balance));
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    if (isWalletConnected && address !== '') {
-      getData();
-    }
-  }, [provider, isWalletConnected, address, chainId]);
 
   async function saveConnect() {
     try {
@@ -76,7 +56,7 @@ function Web3Connector() {
       dispatch({
         type: 'set',
         target: 'chainId',
-        value: window.ethereum.chainId,
+        value: parseInt(window.ethereum.chainId, 16),
       });
 
       window.ethereum.on('accountsChanged', (newAccounts: Array<string>) => {
