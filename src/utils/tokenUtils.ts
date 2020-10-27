@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 import {
   Contract,
   ContractInterface,
@@ -19,9 +21,9 @@ async function approveErc20(
   provider: providers.Web3Provider,
   tokenAddress: string,
   spender: string,
-  amount: string,
+  amount: BigNumber,
 ) {
-  const contract = new Contract(tokenAddress, erc20Abi, provider);
+  const contract = new Contract(tokenAddress, erc20Abi, provider.getSigner());
 
   try {
     const tx = await contract.approve(spender, amount);
@@ -30,7 +32,6 @@ async function approveErc20(
     return receipt;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot approve');
   }
 }
@@ -40,15 +41,14 @@ async function allowanceErc20(
   tokenAddress: string,
   owner: string,
   spender: string,
-) {
+): Promise<BigNumber> {
   const contract = new Contract(tokenAddress, erc20Abi, provider);
 
   try {
-    const allowance = await contract.approve(owner, spender);
+    const allowance = await contract.allowance(owner, spender);
     return allowance;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot approve');
   }
 }
@@ -65,7 +65,6 @@ async function balanceOfErc20(
     return balance;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot approve');
   }
 }
@@ -101,7 +100,6 @@ async function approveErc721(
     return receipt;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot approve');
   }
 }
@@ -202,7 +200,6 @@ async function setApprovalForAllErc1155(
     return receipt;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot set approve for all');
   }
 }
@@ -220,7 +217,6 @@ async function isApprovedForAllErc721(
     return isApprovedForAll;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot get approved for all');
   }
 }
@@ -238,12 +234,44 @@ async function isApprovedForAllErc1155(
     return isApprovedForAll;
   } catch (e) {
     console.log(e);
-
     throw new Error('Cannot get approved for all');
   }
 }
 
+async function getAssetsOf(
+  provider: providers.Web3Provider | providers.JsonRpcProvider,
+  tokenAddress: string,
+  address: string,
+) {
+  const contract = new Contract(tokenAddress, erc721Abi, provider);
+
+  try {
+    const balance = await contract.balanceOf(address);
+    const tokens: BigNumber[] = [];
+
+    for (let i = 0; i < balance; i += 1) {
+      const tokenId = await contract.tokenOfOwnerByIndex(address, i);
+      tokens.push(tokenId);
+    }
+
+    const assets: Asset[] = [];
+
+    for (let i = 0; i < tokens.length; i += 1) {
+      const asset = await getAsset(provider, tokenAddress, tokens[i]);
+      assets.push(asset);
+    }
+
+    console.log(assets);
+
+    return assets;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot get assets');
+  }
+}
+
 export {
+  getAssetsOf,
   isStandardErc721,
   approveErc20,
   allowanceErc20,

@@ -24,26 +24,28 @@ const FooterLink = styled(Link)`
 
 function Footer() {
   return (
-    <Flex
-      alignItems="center"
-      pt="6rem"
-    >
-      <Box
-        width={1}
+    <>
+      <Flex
+        alignItems="center"
+        pt="6rem"
       >
-        <FooterText>
-          Made with ♥ by
-          {' '}
-          <FooterLink
-            href="https://twitter.com/clementcodes"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Clemlak
-          </FooterLink>
-        </FooterText>
-      </Box>
-    </Flex>
+        <Box
+          width={1}
+        >
+          <FooterText>
+            Made by
+            {' '}
+            <FooterLink
+              href="https://twitter.com/clementcodes"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Clemlak
+            </FooterLink>
+          </FooterText>
+        </Box>
+      </Flex>
+    </>
   );
 }
 

@@ -14,6 +14,8 @@ import {
 import {
   Button,
   Modal,
+  Link,
+  Text,
 } from '../../style/components';
 
 function Web3Connector() {
@@ -27,6 +29,7 @@ function Web3Connector() {
   const {
     address,
     isWalletConnected,
+    chainId,
   } = state;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,7 +59,7 @@ function Web3Connector() {
       dispatch({
         type: 'set',
         target: 'chainId',
-        value: parseInt(window.ethereum.chainId, 16),
+        value: parseInt(window.ethereum.chainId, 16).toString(),
       });
 
       window.ethereum.on('accountsChanged', (newAccounts: Array<string>) => {
@@ -68,10 +71,17 @@ function Web3Connector() {
       });
 
       window.ethereum.on('chainChanged', (newChainId: string) => {
-        console.log(newChainId);
+        dispatch({
+          type: 'set',
+          target: 'chainId',
+          value: parseInt(newChainId, 16).toString(),
+        });
 
-        // Quick fix to avoid a crash of Ethers.js
-        window.location.reload();
+        dispatch({
+          type: 'set',
+          target: 'provider',
+          value: new providers.Web3Provider(window.ethereum),
+        });
       });
     } catch (e) {
       console.log(e);
@@ -107,20 +117,38 @@ function Web3Connector() {
   }
 
   return (
-    <Button
-      genre="primary"
-      size="m"
-      onClick={() => connect()}
-      isLoading={isLoading}
-    >
-      {isWalletConnected ? (
-        <>
-          {`${address.substring(0, 5)}...${address.substring(address.length - 6, address.length)}`}
-        </>
-      ) : (
-        'Connect your wallet'
-      )}
-    </Button>
+    <>
+      <Modal
+        title="Wrong network!"
+        isOpen={chainId !== '80001'}
+        toggle={() => {}}
+      >
+        <Text>
+          Currently only Mumbai network is supported. Please connect your MetaMask to this network.
+        </Text>
+        <Link
+          href="https://docs.matic.network/docs/develop/metamask/config-matic"
+          rel="noreferrer noopener"
+          margin="0"
+        >
+          More information here about the Matic Mumbai testnet here.
+        </Link>
+      </Modal>
+      <Button
+        genre="primary"
+        size="m"
+        onClick={() => connect()}
+        isLoading={isLoading}
+      >
+        {isWalletConnected ? (
+          <>
+            {`${address.substring(0, 5)}...${address.substring(address.length - 6, address.length)}`}
+          </>
+        ) : (
+          'Connect your wallet'
+        )}
+      </Button>
+    </>
   );
 }
 

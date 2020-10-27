@@ -196,10 +196,60 @@ function getStatus(status: string): string {
   }
 }
 
+async function swap(
+  provider: providers.Web3Provider,
+  chainId: string,
+  offerId: string,
+  swapTokensAddresses: string[],
+  swapTokensIds: string[],
+  swapTokensValues: string[],
+) {
+  const contract = getContract(provider, chainId);
+
+  try {
+    const tx = await contract.swap(
+      offerId,
+      swapTokensAddresses,
+      swapTokensIds,
+      swapTokensValues,
+    );
+
+    const receipt = await tx.wait();
+    return receipt;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot swap');
+  }
+}
+
+async function finalize(
+  provider: providers.Web3Provider,
+  chainId: string,
+  offerId: string,
+  claimingAssets: boolean,
+) {
+  const contract = getContract(provider, chainId);
+
+  try {
+    const tx = await contract.finalize(
+      offerId,
+      claimingAssets,
+    );
+
+    const receipt = await tx.wait();
+    return receipt;
+  } catch (e) {
+    console.log(e);
+    throw new Error('Cannot finalize');
+  }
+}
+
 export {
   createOffer,
   cancelOffer,
   getOffers,
   getOfferWithAssets,
   getStatus,
+  swap,
+  finalize,
 };

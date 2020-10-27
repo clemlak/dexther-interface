@@ -20,9 +20,9 @@ export interface IWeb3Context {
 
 const Web3Context = createContext<IWeb3Context>({
   state: {
-    provider: new providers.InfuraProvider(4, '8fc6340cde624d33874ca8603ddaa502'),
+    provider: new providers.JsonRpcProvider('https://rpc-mumbai.matic.today', 80001),
     address: '',
-    chainId: '1',
+    chainId: '80001',
     isWalletConnected: false,
   },
   dispatch: () => {},
@@ -50,9 +50,9 @@ function web3Reducer(
 }
 
 const initialWeb3State: IWeb3State = {
-  provider: new providers.InfuraProvider(4, '8fc6340cde624d33874ca8603ddaa502'),
+  provider: new providers.JsonRpcProvider('https://rpc-mumbai.matic.today', 80001),
   address: '',
-  chainId: '4',
+  chainId: '80001',
   isWalletConnected: false,
 };
 

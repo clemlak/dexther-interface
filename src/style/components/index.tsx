@@ -12,8 +12,10 @@ import Input from './input';
 import NftCard from './nftCard';
 import Link from './link';
 import Modal from './modal';
+import Alert from './alert';
 
 export {
+  Alert,
   Modal,
   Button,
   Dropdown,

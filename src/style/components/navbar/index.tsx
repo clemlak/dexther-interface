@@ -32,8 +32,10 @@ function Navbar() {
         </Logo>
       </NavLink>
       <Box mx="auto" />
-      <NavLink to="/">Offers</NavLink>
-      <Link href="https://notion.co" target="_blank" rel="noreferrer noopener">FAQs</Link>
+      <NavLink to="/">All offers</NavLink>
+      <NavLink to="/">My offers</NavLink>
+      <NavLink to="/">My swaps</NavLink>
+      <Link href="https://hackmd.io/@clemlak/BJsgG1Udw" target="_blank" rel="noreferrer noopener">FAQs</Link>
       <NavLink margin="0 20px 0 10px" to="/create">Create an offer</NavLink>
       <Web3Connector />
     </Flex>

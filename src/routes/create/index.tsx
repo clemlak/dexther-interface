@@ -14,6 +14,7 @@ import {
   utils,
   constants,
 } from 'ethers';
+import styled from 'styled-components';
 
 import {
   Web3Context,
@@ -29,19 +30,24 @@ import {
 } from '../../style/components';
 
 import {
-  getUserAssets,
-} from '../../utils/openSea';
+  getAssetsOf,
+  isApprovedForAllErc721,
+  setApprovalForAllErc721,
+} from '../../utils/tokenUtils';
 
 import {
   createOffer,
 } from '../../utils/dexther';
 
-import {
-  isApprovedForAllErc721,
-  setApprovalForAllErc721,
-} from '../../utils/tokenUtils';
-
 import config from '../../utils/config';
+
+import DaiIcon from '../../assets/icons/dai.png';
+
+const DaiLogo = styled.img`
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 10px;
+`;
 
 function Create() {
   const web3Context = useContext(Web3Context);
@@ -60,36 +66,19 @@ function Create() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [selectedAssets, setSelectedAssets] = useState<number[]>([]);
   const [estimateValue, setEstimateValue] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [loadingMessage, setLoadingMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [buttonMessage, setButtonMessage] = useState<string>('Swap');
 
   useEffect(() => {
     async function doGetUserAssets() {
       try {
-        const res = await getUserAssets(chainId, address);
-        const openSeaAssets: OpenSeaAsset[] = res.assets;
-
-        const formattedAssets: Asset[] = [];
-
-        for (let i = 0; i < openSeaAssets.length; i += 1) {
-          const asset: Asset = {
-            contract: {
-              address: openSeaAssets[i].asset_contract.address,
-              name: openSeaAssets[i].asset_contract.name,
-              symbol: openSeaAssets[i].asset_contract.symbol,
-              imageUrl: openSeaAssets[i].asset_contract.image_url,
-              type: openSeaAssets[i].asset_contract.schema_name,
-            },
-            name: openSeaAssets[i].name ? openSeaAssets[i].name : 'N / A',
-            tokenId: openSeaAssets[i].token_id,
-            imageUrl: openSeaAssets[i].image_url ? openSeaAssets[i].image_url : 'https://breakthrough.org/wp-content/uploads/2018/10/default-placeholder-image.png',
-          };
-
-          formattedAssets.push(asset);
-        }
-
-        setAssets(formattedAssets);
+        const res = await getAssetsOf(
+          provider,
+          '0x939f7EB5C1C80b1D125F87Da3F739EFFDa026c0f',
+          address,
+        );
+        setAssets(res);
       } catch (e) {
         console.log(e);
       }
@@ -151,7 +140,6 @@ function Create() {
             onClick={() => {
               if (selectedAssets.includes(index)) {
                 const newSelectedAssets = selectedAssets.filter((value) => value !== index);
-                console.log(newSelectedAssets);
                 setSelectedAssets([...newSelectedAssets]);
               } else {
                 setSelectedAssets([...selectedAssets, index]);
@@ -196,6 +184,7 @@ function Create() {
           size="m"
           block
         >
+          <DaiLogo src={DaiIcon} alt="DAI logo" />
           DAI
         </Button>
       </Box>
@@ -218,7 +207,7 @@ function Create() {
               const offerTokensValues: string[] = [];
 
               for (let i = 0; i < selectedAssets.length; i += 1) {
-                setLoadingMessage('Checking approval...');
+                setButtonMessage('Checking approval...');
 
                 const index: number = selectedAssets[i];
                 const asset = assets[index];
@@ -231,7 +220,7 @@ function Create() {
                 );
 
                 if (!isApproved) {
-                  setLoadingMessage('Waiting for approval...');
+                  setButtonMessage('Waiting for approval...');
 
                   const receipt = await setApprovalForAllErc721(
                     provider as providers.Web3Provider,
@@ -247,13 +236,13 @@ function Create() {
                 offerTokensValues.push('1');
               }
 
-              setLoadingMessage('Waiting for confirmation...');
+              setButtonMessage('Waiting for confirmation...');
 
               const receipt = await createOffer(
                 provider as providers.Web3Provider,
-                config.contracts.dexther[chainId],
+                chainId,
                 utils.parseEther(estimateValue),
-                '0xB28849468853301EBdf57a995d30867DBf803F94',
+                config.contracts.tokens.dai[80001],
                 offerTokensAddresses,
                 offerTokensIds,
                 offerTokensValues,
@@ -262,22 +251,16 @@ function Create() {
               );
 
               console.log(receipt);
+              setButtonMessage('Yay! Offer was created!');
             } catch (e) {
               console.log(e);
+              setButtonMessage('Ooops! Offer could not be created...');
             } finally {
               setIsLoading(false);
             }
           }}
         >
-          {isLoading ? (
-            <>
-              {loadingMessage}
-            </>
-          ) : (
-            <>
-              Create offer
-            </>
-          )}
+          {buttonMessage}
         </Button>
       </Box>
     </Flex>

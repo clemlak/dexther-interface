@@ -64,8 +64,8 @@ interface NftCardInterface {
   imageUrl: string;
   assetName: string;
   contractName: string;
-  isSelected: boolean;
-  onClick: Function;
+  isSelected?: boolean;
+  onClick?: Function;
   isSelectable?: boolean;
 }
 
@@ -74,8 +74,8 @@ function NftCard(props: NftCardInterface) {
     imageUrl,
     assetName,
     contractName,
-    isSelected,
-    onClick,
+    isSelected = false,
+    onClick = () => {},
     isSelectable = false,
   } = props;
 

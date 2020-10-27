@@ -7,9 +7,6 @@ import {
   Flex,
   Box,
 } from 'reflexbox';
-import {
-  utils,
-} from 'ethers';
 
 import {
   Web3Context,
@@ -32,22 +29,23 @@ function Home() {
   } = web3Context;
 
   const {
-    address,
     provider,
     chainId,
-    isWalletConnected,
   } = state;
 
   const [offers, setOffers] = useState<OfferWithAssets[]>([]);
+  const [hasFetchedOffers, setHasFetchedOffers] = useState<boolean>(false);
 
   useEffect(() => {
     async function getCurrentOffers() {
       try {
-        const res = await getOffers(provider, '4');
+        const res = await getOffers(provider, chainId);
         console.log(res);
         setOffers(res);
       } catch (e) {
         console.log(e);
+      } finally {
+        setHasFetchedOffers(true);
       }
     }
 
@@ -82,7 +80,7 @@ function Home() {
       ) : (
         <Box>
           <Text>
-            Fetching offers...
+            {hasFetchedOffers ? 'No offers...' : 'Fetching offers...'}
           </Text>
         </Box>
       )}
