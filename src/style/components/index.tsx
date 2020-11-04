@@ -13,8 +13,10 @@ import NftCard from './nftCard';
 import Link from './link';
 import Modal from './modal';
 import Alert from './alert';
+import OfferPlaceholder from './offerPlaceholder';
 
 export {
+  OfferPlaceholder,
   Alert,
   Modal,
   Button,

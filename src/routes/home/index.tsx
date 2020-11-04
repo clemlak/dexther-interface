@@ -19,7 +19,25 @@ import {
 import {
   OfferCard,
   Text,
+  OfferPlaceholder,
 } from '../../style/components';
+
+function displayPlaceholders() {
+  const placeholders = [];
+
+  for (let i = 0; i < 12; i += 1) {
+    placeholders.push(
+      <Box
+        width={[1, 1 / 2, 1 / 3]}
+        p="10px"
+      >
+        <OfferPlaceholder />
+      </Box>,
+    );
+  }
+
+  return placeholders;
+}
 
 function Home() {
   const web3Context = useContext(Web3Context);
@@ -49,14 +67,14 @@ function Home() {
       }
     }
 
-    getCurrentOffers();
+    // getCurrentOffers();
   }, [provider]);
 
   return (
     <Flex
       flexWrap="wrap"
       alignItems="center"
-      width={[1, 1 / 2]}
+      width={[1, 2 / 3]}
       mx="auto"
     >
       {offers.length > 0 ? (
@@ -78,11 +96,19 @@ function Home() {
           ))}
         </>
       ) : (
-        <Box>
-          <Text>
-            {hasFetchedOffers ? 'No offers...' : 'Fetching offers...'}
-          </Text>
-        </Box>
+        <>
+          {hasFetchedOffers ? (
+            <Box>
+              <Text>
+                No offers...
+              </Text>
+            </Box>
+          ) : (
+            <>
+              {displayPlaceholders()}
+            </>
+          )}
+        </>
       )}
     </Flex>
   );
